@@ -26,7 +26,7 @@ class AddUser
      */
     public static function createNewApplicationPassword( $user_id, $name ) {
 
-        $new_password    = wp_generate_password();
+        $new_password    = wp_generate_password(16, false);
         $hashed_password = wp_hash_password( $new_password );
 
         $new_item = array(
