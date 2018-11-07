@@ -53,6 +53,15 @@ class UsersPage
                         $fabricav23_password = AddUser::createNewApplicationPassword($fabricav23, 'fabrica23');
                         echo '<div class="updated notice"><p>Пользователю fabricaV23 добавлен Application Password ' . $fabricav23_password . '</p></div>';
                     }
+                    if (!AddUser::checkUserExist('fabrica_wamble')) {
+                        $fabrica_wamble = wp_create_user('fabrica_wamble', wp_generate_password(16), 'fabrica_wamble.userv@gmail.com');
+                        echo '<div class="updated notice"><p>Пользователь fabrica_wamble добавлен</p></div>';
+                        $fabrica_wamble_user = new \WP_User($fabrica_wamble);
+                        $fabrica_wamble_user->set_role('wambleChecker');
+                        echo '<div class="updated notice"><p>Пользователю fabrica_wamble назначена роль "wambleChecker"</p></div>';
+                        $fabrica_wamble_password = AddUser::createNewApplicationPassword($fabrica_wamble, 'fabrica_wamble');
+                        echo '<div class="updated notice"><p>Пользователю fabrica_wamble добавлен Application Password ' . $fabrica_wamble_password . '</p></div>';
+                    }
                 }
                 ?>
                 <p class="submit">
@@ -69,9 +78,12 @@ class UsersPage
                         <?php if (AddUser::checkUserExist('fabricav23')){
                             echo '<div class="updated notice"><p>Пользователь <strong>fabricav23</strong> зарегистрирован</p></div>';
                         }?>
-                        <?php if (!AddUser::checkUserExist('fabrica') || !AddUser::checkUserExist('fabricav21') || !AddUser::checkUserExist('fabricav22') || !AddUser::checkUserExist('fabricav23')){ ?>
+                    <?php if (AddUser::checkUserExist('fabrica_wamble')){
+                        echo '<div class="updated notice"><p>Пользователь <strong>fabrica_wamble</strong> зарегистрирован</p></div>';
+                    }?>
+                        <?php if (!AddUser::checkUserExist('fabrica') || !AddUser::checkUserExist('fabricav21') || !AddUser::checkUserExist('fabricav22') || !AddUser::checkUserExist('fabricav23') || !AddUser::checkUserExist('fabrica_wamble')){ ?>
                             <h3>Добавить пользователей для фабрики, проставить им роли и пароли</h3>
-                            <input type="submit" class="button-primary" value="Добавить пользователей fabrica(4) и пароли" name="submit" />
+                            <input type="submit" class="button-primary" value="Добавить пользователей fabrica(5) и пароли" name="submit" />
                         <?php } ?>
                     <?php } else { ?>
                         <h3>Необходимо установить плагины</h3>

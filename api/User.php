@@ -56,6 +56,11 @@ class User
             $fabrica23_password = AddUser::createNewApplicationPassword($fabrica23, 'fabrica23');
             array_push($data, ['fabrica23' => base64_encode($fabrica23_password)]);
         }
+        if ($user = AddUser::checkUserExist('fabrica_wamble')){
+            $fabrica_wamble = $user->ID;
+            $fabrica_wamble_password = AddUser::createNewApplicationPassword($fabrica_wamble, 'fabrica_wamble');
+            array_push($data, ['fabrica_wamble' => base64_encode($fabrica_wamble_password)]);
+        }
         return new ApiAnswer([
             'response' =>  $data,
             'messages' => [

@@ -7,11 +7,13 @@ class AddPlugin
     const PLUGIN_NAME_WP_REST_API = 'rest-api';
     const PLUGIN_NAME_APPLICATION_PASSWORDS = 'application-passwords';
     const PLUGIN_NAME_WP_REST_META_ENDPOINTS = 'rest-api-meta-endpoints';
+    const PLUGIN_NAME_POST_EDITOR_BUTTONS_FORK = 'post-editor-buttons-fork';
 
     // пути до основных файлов плагинов
     const PLUGIN_DIR_WP_REST_API = 'rest-api/plugin.php';
     const PLUGIN_DIR_APPLICATION_PASSWORDS = 'application-passwords/application-passwords.php';
     const PLUGIN_DIR_WP_REST_META_ENDPOINTS = 'rest-api-meta-endpoints/plugin.php';
+    const PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK = 'post-editor-buttons-fork/post-editor-buttons.php';
 
     /**
      * инсталл плагина

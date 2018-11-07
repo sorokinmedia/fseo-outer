@@ -25,6 +25,9 @@ class PluginsPage
                     if (!is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_META_ENDPOINTS)) {
                         AddPlugin::installPlugin(AddPlugin::PLUGIN_NAME_WP_REST_META_ENDPOINTS);
                     }
+                    if (!is_plugin_active(AddPlugin::PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK)) {
+                        AddPlugin::installPlugin(AddPlugin::PLUGIN_NAME_POST_EDITOR_BUTTONS_FORK);
+                    }
                     if (is_plugin_inactive(AddPlugin::PLUGIN_DIR_WP_REST_API)){
                         AddPlugin::activatePlugin(AddPlugin::PLUGIN_DIR_WP_REST_API);
                     }
@@ -33,6 +36,9 @@ class PluginsPage
                     }
                     if (is_plugin_inactive(AddPlugin::PLUGIN_DIR_WP_REST_META_ENDPOINTS)) {
                         AddPlugin::activatePlugin(AddPlugin::PLUGIN_DIR_WP_REST_META_ENDPOINTS);
+                    }
+                    if (is_plugin_inactive(AddPlugin::PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK)) {
+                        AddPlugin::activatePlugin(AddPlugin::PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK);
                     }
                     echo '<div class="updated notice"><p>Плагины установлены и активированы</p></div>';
                 } 
@@ -47,8 +53,11 @@ class PluginsPage
                     <?php if (is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_META_ENDPOINTS)){
                         echo '<div class="updated notice"><p>Плагин <strong>' . AddPlugin::PLUGIN_NAME_WP_REST_META_ENDPOINTS . '</strong> установлен и активирован</p></div>';
                     }?>
+                    <?php if (is_plugin_active(AddPlugin::PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK)){
+                        echo '<div class="updated notice"><p>Плагин <strong>' . AddPlugin::PLUGIN_NAME_POST_EDITOR_BUTTONS_FORK . '</strong> установлен и активирован</p></div>';
+                    }?>
 
-                    <?php if (!is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_API) || !is_plugin_active(AddPlugin::PLUGIN_DIR_APPLICATION_PASSWORDS) || !is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_META_ENDPOINTS)){ ?>
+                    <?php if (!is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_API) || !is_plugin_active(AddPlugin::PLUGIN_DIR_APPLICATION_PASSWORDS) || !is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_META_ENDPOINTS) || !is_plugin_active(AddPlugin::PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK)){ ?>
                 <h3>Установить плагины WP REST API, Application Passwords, WP REST Meta Endpoints</h3>
             <input type="submit" class="button-primary" value="Добавить плагины" name="submit" />
             <?php } ?>
