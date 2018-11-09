@@ -23,8 +23,8 @@ use FseoOuter\common\menu\Menu;
 use FseoOuter\common\SupportingFunction;
 use FseoOuter\common\AutoLogin;
 
-register_activation_hook(__FILE__, ['Activator', 'install']);
-register_uninstall_hook(__FILE__, ['Remove', 'uninstall']);
+register_activation_hook(__FILE__, ['ActivatorFseo', 'install']);
+register_uninstall_hook(__FILE__, ['RemoveFseo', 'uninstall']);
 add_action('admin_menu', ['adminMenuOuter', 'addMenu']);
 add_action( 'save_post', [SupportingFunction::class, 'parseArticleText'], 10, 3 );
 add_action('admin_enqueue_scripts', ['AddScriptOuter', 'script']);
@@ -36,10 +36,10 @@ include_once 'api/User.php';
 include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 /**
- * Class Activator
+ * Class ActivatorFseo
  * действия при активации плагина
  */
-class Activator
+class ActivatorFseo
 {
     public static function install()
     {
@@ -48,10 +48,10 @@ class Activator
 }
 
 /**
- * Class Remove
+ * Class RemoveFseo
  * действия при удалении плагина
  */
-class Remove
+class RemoveFseo
 {
     public static function uninstall()
     {
