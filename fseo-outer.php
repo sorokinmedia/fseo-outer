@@ -79,7 +79,7 @@ class AddScriptOuter
     }
 }
 
-function test()
+function test123()
 {
     $pass = get_user_meta( 42, \FseoOuter\common\setting\AddUser::USERMETA_KEY_APPLICATION_PASSWORDS, true );
     var_dump($pass); echo '</br>';
