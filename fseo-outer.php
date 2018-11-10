@@ -15,7 +15,7 @@ const FSEO_OUTER_VER = '1.0';
 // Include the autoloader so we can dynamically include the rest of the classes.
 require_once( trailingslashit( dirname( __FILE__ ) ) . 'inc/autoloader.php' );
 // instantiate the loader
-$loader = new \Example\Psr4AutoloaderClass();
+$loader = new \Example\Psr4AutoloaderClassOuter();
 $loader->register();
 $loader->addNamespace('FseoOuter', dirname( __FILE__ ));
 

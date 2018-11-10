@@ -45,7 +45,7 @@ namespace Example;
  *      <?php
  *      new \Foo\Bar\Qux\QuuxTest;
  */
-class Psr4AutoloaderClass
+class Psr4AutoloaderClassOuter
 {
     /**
      * An associative array where the key is a namespace prefix and the value
