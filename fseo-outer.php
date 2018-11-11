@@ -78,11 +78,3 @@ class AddScriptOuter
         wp_enqueue_script('custom-script', $main_script_url, array( 'jquery' ), FSEO_OUTER_VER, true);
     }
 }
-
-function test123()
-{
-    $pass = get_user_meta( 42, \FseoOuter\common\setting\AddUser::USERMETA_KEY_APPLICATION_PASSWORDS, true );
-    var_dump($pass); echo '</br>';
-    var_dump($pass[0]['password']);
-}
-//test();
