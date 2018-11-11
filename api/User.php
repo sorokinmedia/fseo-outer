@@ -1,5 +1,5 @@
 <?php
-
+namespace FseoOuter\api;
 use FseoOuter\common\setting\AddUser;
 use FseoOuter\api\models\RestMessage;
 use FseoOuter\api\models\ApiAnswer;

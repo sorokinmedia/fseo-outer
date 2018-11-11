@@ -33,6 +33,10 @@ add_action('wp_footer', [AutoLogin::class, 'autoLogin']);
 include_once 'api/Post.php';
 include_once 'api/Term.php';
 include_once 'api/User.php';
+include_once 'api/Category.php';
+include_once 'api/Link.php';
+include_once 'api/TermLink.php';
+include_once 'api/Wamble.php';
 include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 /**

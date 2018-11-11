@@ -1,4 +1,5 @@
 <?php
+namespace FseoOuter\api;
 
 /**
  * Класс для работы с рубриками через апи

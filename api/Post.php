@@ -1,5 +1,5 @@
 <?php
-
+namespace FseoOuter\api;
 /**
  * Класс для работы с постами через апи
  * Class Post
