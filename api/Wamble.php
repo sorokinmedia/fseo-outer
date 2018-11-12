@@ -41,9 +41,9 @@ class Wamble
     /**
      * получить кол-во постов в периоде
      * @param $request
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
-    public function wamblePostsCount(WP_REST_Request $request)
+    public function wamblePostsCount(\WP_REST_Request $request)
     {
         global $wpdb;
         $count = $wpdb->get_var(
@@ -56,15 +56,15 @@ class Wamble
                 self::DATE_FINISH
             )
         );
-        return new WP_REST_Response((int)$count, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response((int)$count, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
      * получить ID постов в периоде
      * @param $request
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
-    public function wamblePosts(WP_REST_Request $request)
+    public function wamblePosts(\WP_REST_Request $request)
     {
         global $wpdb;
         $posts = $wpdb->get_col(
@@ -77,7 +77,7 @@ class Wamble
             )
         );
         $posts = array_map(function($value) { return (int)$value; }, $posts); // конверт строк в integer
-        return new WP_REST_Response($posts, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($posts, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 }
 

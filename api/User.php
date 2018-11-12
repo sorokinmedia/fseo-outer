@@ -30,10 +30,10 @@ class User
 
     /**
      * Сбрасываем пароли на фабричных пользователей
-     * @param WP_REST_Request $request
+     * @param \WP_REST_Request $request
      * @return ApiAnswer
      */
-    public function resetPassword(WP_REST_Request $request)
+    public function resetPassword(\WP_REST_Request $request)
     {
         $data = [];
         if ($user = AddUser::checkUserExist('fabrica')){

@@ -79,9 +79,9 @@ class Post
     /**
      * get the final post object
      * @param $request
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
-    public function getAllPosts(WP_REST_Request $request)
+    public function getAllPosts(\WP_REST_Request $request)
     {
         $id = $request->get_param('id');
         $post = get_post($id);
@@ -92,15 +92,15 @@ class Post
         $post_all['seo_description'] = get_post_meta($post->ID, '_aioseop_description', true);
         $post_all['seo_keywords'] = get_post_meta($post->ID, '_aioseop_keywords', true);
         $post_all['cat_template'] = 'category-fseo.php';
-        return new WP_REST_Response($post_all, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($post_all, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
      * transfer data from post to term, delete draft post
      * @param $request
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
-    public function postToTerm(WP_REST_Request $request)
+    public function postToTerm(\WP_REST_Request $request)
     {
         $id = $request->get_param('id');
         $post = get_post($id);
@@ -129,15 +129,15 @@ class Post
         update_term_meta( $term->term_id, 'seo_keywords', get_post_meta($post->ID, '_aioseop_keywords', true));
         update_term_meta( $term->term_id, 'cat_template', 'category-fseo.php');
         wp_delete_post( $post->ID);
-        return new WP_REST_Response($term, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($term, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
      * get the final post object
      * @param $request
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
-    public function postWithComments(WP_REST_Request $request)
+    public function postWithComments(\WP_REST_Request $request)
     {
         $id = $request->get_param('id');
         $post = get_post($id);
@@ -152,15 +152,15 @@ class Post
             ],
             'comments' => $comments,
         ];
-        return new WP_REST_Response($response, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($response, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
      * get the final post object
-     * @param $request
-     * @return WP_REST_Response
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
      */
-    public function postWithCommentCount(WP_REST_Request $request)
+    public function postWithCommentCount(\WP_REST_Request $request)
     {
         $id = $request->get_param('id');
         $post = get_post($id);
@@ -170,7 +170,7 @@ class Post
             'title' => $post->post_title,
             'comment_count' => (int) $count->approved
         ];
-        return new WP_REST_Response($response, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($response, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 }
 

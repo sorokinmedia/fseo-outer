@@ -142,7 +142,7 @@ class Term
     /**
      * get the final hierarchical array of cats
      * @param $object
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
     public function getAllTerms($object)
     {
@@ -151,15 +151,15 @@ class Term
         foreach ($tops as $top){
             $cats = $cats + $this->getTopChilds($top->term_id); // получаем дочерние топовых категорий
         }
-        return new WP_REST_Response($cats, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($cats, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
      * transfer data from post to term, delete draft post
      * @param $request
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
-    public function clusterMetaDelete(WP_REST_Request $request)
+    public function clusterMetaDelete(\WP_REST_Request $request)
     {
         $id = $request->get_param('id');
         $term = get_term($id, 'category');
@@ -169,19 +169,19 @@ class Term
         update_term_meta( $term->term_id, 'seo_description', '');
         update_term_meta( $term->term_id, 'seo_keywords', '');
         update_term_meta( $term->term_id, 'cat_template', '');
-        return new WP_REST_Response($term, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($term, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
      * get category for space
      * @param $request
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
-    public function getSpaceCategory(WP_REST_Request $request)
+    public function getSpaceCategory(\WP_REST_Request $request)
     {
         $id = $request->get_param('id');
         $category = get_category($id);
-        $posts = new WP_Query( array(
+        $posts = new \WP_Query( array(
             'post_type' => 'post',
             'post_status' => 'publish',
             'category__in' => $category->term_id
@@ -190,15 +190,15 @@ class Term
         $count = $posts->found_posts;
         $category->count = (int) $count;
         $category->link = $link;
-        return new WP_REST_Response($category, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($category, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
      * получить полный путь для категории
      * @param $request
-     * @return WP_REST_Response
+     * @return \WP_REST_Response
      */
-    public function termRoute(WP_REST_Request $request)
+    public function termRoute(\WP_REST_Request $request)
     {
         $id = $request->get_param('id');
         $term = get_term($id, 'category');
@@ -206,7 +206,7 @@ class Term
         if ($term->parent != 0){
             $route = $this->addParentTerm($term->parent, $route) . ' - ' . $route;
         }
-        return new WP_REST_Response($route, 200); // возвращаем ответ с кодом 200 и массивом категорий
+        return new \WP_REST_Response($route, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
