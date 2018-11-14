@@ -82,3 +82,13 @@ class AddScriptOuter
         wp_enqueue_script('custom-script', $main_script_url, array( 'jquery' ), FSEO_OUTER_VER, true);
     }
 }
+
+function initFilterOuter() {
+    add_filter( 'is_protected_meta', function( $protected, $meta_key ) {
+        if ( '_aioseop_keywords' == $meta_key || '_aioseop_keywords' == $meta_key && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+            $protected = false;
+        }
+        return $protected;
+    }, 10, 2 );
+}
+initFilterOuter();
