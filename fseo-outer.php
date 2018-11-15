@@ -74,12 +74,28 @@ class adminMenuOuter
     }
 }
 
+/**
+ * Class AddScriptOuter
+ */
 class AddScriptOuter
 {
     public static function script()
     {
         $main_script_url = plugins_url('/common/js/script.js', __FILE__);
         wp_enqueue_script('custom-script', $main_script_url, array( 'jquery' ), FSEO_OUTER_VER, true);
+    }
+}
+
+/**
+ * Необходимые стили для админки
+ * Class AddStyleAdmin
+ */
+class AddStyleAdmin
+{
+    public static function style()
+    {
+        $style_admin = plugins_url('/common/css/admin-style.css', __FILE__);
+        wp_enqueue_style('style-admin', $style_admin, [], FSEO_OUTER_VER);
     }
 }
 
