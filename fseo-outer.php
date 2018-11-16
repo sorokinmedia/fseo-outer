@@ -22,6 +22,7 @@ $loader->addNamespace('FseoOuter', dirname( __FILE__ ));
 use FseoOuter\common\menu\Menu;
 use FseoOuter\common\SupportingFunction;
 use FseoOuter\common\AutoLogin;
+use FseoOuter\common\contents\ContentsPost;
 
 register_activation_hook(__FILE__, ['ActivatorFseo', 'install']);
 register_uninstall_hook(__FILE__, ['RemoveFseo', 'uninstall']);
@@ -100,6 +101,22 @@ class AddStyleAdmin
     }
 }
 
+/**
+ * Необходимые стили
+ * Class AddStyleOuter
+ */
+class AddStyleOuter
+{
+    public static function style()
+    {
+        $style_url = plugins_url('/common/css/style.css', __FILE__);
+        wp_enqueue_style('custom-style', $style_url, [], FSEO_OUTER_VER);
+    }
+}
+
+/**
+ * Инициализация обработчиков
+ */
 function initFilterOuter() {
     add_filter( 'is_protected_meta', function( $protected, $meta_key ) {
         if ( '_aioseop_keywords' == $meta_key || '_aioseop_keywords' == $meta_key && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
@@ -107,5 +124,7 @@ function initFilterOuter() {
         }
         return $protected;
     }, 10, 2 );
+    add_filter('show_descr_top', [SupportingFunction::class, 'socButtonMoreCat'], 20,1);
+    add_filter('show_descr_top', [ContentsPost::class, 'fseoContentsShortcode']);
 }
 initFilterOuter();

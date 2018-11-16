@@ -48,4 +48,22 @@ class SupportingFunction
         ];
         update_post_meta($articleID, 'post_parsing', json_encode($value));
     }
+
+    /**
+     * добавить соц. кнопки после тега more в категория
+     * @param $content
+     * @return mixed|null|string|string[]
+     */
+    public function socButtonMoreCat($content){
+        $social = get_option('fseo_cat_social', true);
+        if ($social == 1) {
+            $soc_btns = '<div class="ya_share">sd fsd fsd fsd fsa das dsa dasd asd as ads fdgdf gd dfg 
+            <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,viber,whatsapp,skype,telegram" data-counter=""></div></div>';
+            $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
+            if (is_category()) {
+                $content = str_replace('<span id="more"></span>', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
+            }
+        }
+        return $content;
+    }
 }
