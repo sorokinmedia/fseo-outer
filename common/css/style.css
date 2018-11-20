@@ -179,3 +179,130 @@
     height:200px;
     border-radius:100%;
 }
+
+/* cluster navigation */
+.claster_navi{
+    border-top: 1px dashed #ccc;
+    overflow: hidden;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+.cats_tabs{
+    overflow: hidden;
+    font-size: 20px;
+    line-height: 26px;
+}
+.cats_tabs_links{
+    width:30%;
+    float:left;
+    overflow: hidden;
+}
+.cats_tabs_link{
+    display: block;
+}
+.cats_tabs_link a{
+    display: block;
+    padding: 10px;
+    transition: .3s;
+}
+.cats_tabs_link.active a,
+.cats_tabs_link a:hover{
+    background: #ccc;
+    color:#333;
+    text-decoration: none;
+    opacity: .7;
+}
+.cat_tabs_panes{
+    overflow: hidden;
+    width:70%;
+    float:right;
+}
+.cat_tabs_pane{
+    display: none;
+    border: 1px solid #f0f3f9;
+}
+.cat_tabs_pane.active{
+    display: block;
+}
+.child_cat_post a{
+    display: block;
+    padding: 10px;
+    border-bottom: 1px dashed #f0f3f9;
+    transition: .2s;
+}
+.child_cat_post:last-of-type a{
+    border:none;
+    margin:0;
+}
+.child_cat_post a:hover{
+    background: #ccc;
+    color:#333;
+    text-decoration: none;
+    opacity: .7;
+    border-color:transparent;
+}
+.child_cat_post_title{
+    line-height: 1.2;
+}
+.main_posts{
+    overflow: hidden;
+}
+.main_post{
+    width: 32%;
+    margin-right: 2%;
+    float: left;
+    padding: 15px;
+    background: #f0f3f9;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+.main_post a{
+    transition: .2s;
+    display: block;
+}
+.main_post a:hover{
+    text-decoration: none;
+    opacity: .8;
+}
+.main_posts .main_post:last-child{
+    margin-right: 0;
+}
+.main_post_thumb{
+    width:100%;
+    height: 135px;
+    overflow: hidden;
+}
+.main_post_title{
+    font-size: 16px;
+    margin: 5px 0;
+}
+.main_post_comments{
+    background: url('../img/cmt.png') 0 8px no-repeat;
+    padding-left: 15px;
+    font-size: 12px;
+}
+.other_posts{
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+.other_post{
+    font-size: 20px;
+    line-height: 26px;
+}
+.other_posts .other_post:last-of-type{
+    margin:0;
+    padding:0;
+    border:none;
+}
+.other_post_title{
+    padding: 10px;
+    transition: .2s;
+}
+.other_post_title:hover{
+    background: #f0f3f9;
+}
+.claster_nav_title{
+    margin-bottom: 15px;
+    font-size: 24px;
+    line-height: 30px;
+}

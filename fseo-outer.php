@@ -31,6 +31,8 @@ add_action( 'save_post', [SupportingFunction::class, 'parseArticleText'], 10, 3 
 add_action('admin_enqueue_scripts', ['AddScriptOuter', 'script']);
 add_action('admin_init', ['AddStyleAdmin', 'style']);
 add_action('wp_footer', [AutoLogin::class, 'autoLogin']);
+add_action('wp_enqueue_scripts', ['SupportingScriptOuter', 'script']);
+add_action('wp_enqueue_scripts', ['AddStyleOuter', 'style']);
 
 include_once 'api/Post.php';
 include_once 'api/Term.php';
@@ -89,6 +91,19 @@ class AddScriptOuter
 }
 
 /**
+ * Подключаем вспомогательные скрипты
+ * Class SupportingScript
+ */
+class SupportingScriptOuter
+{
+    public static function script()
+    {
+        wp_register_script('ya_static_share', '//yastatic.net/share2/share.js', array(), FSEO_OUTER_VER);
+        wp_enqueue_script('ya_static_share');
+    }
+}
+
+/**
  * Необходимые стили для админки
  * Class AddStyleAdmin
  */
@@ -124,7 +139,9 @@ function initFilterOuter() {
         }
         return $protected;
     }, 10, 2 );
-    add_filter('show_descr_top', [SupportingFunction::class, 'socButtonMoreCat'], 20,1);
-    add_filter('show_descr_top', [ContentsPost::class, 'fseoContentsShortcode']);
+    //add_filter('show_descr_top', [SupportingFunction::class, 'socButtonMoreCat'], 20,1);
+    //add_filter('show_descr_top', [ContentsPost::class, 'fseoContentsShortcode']);
+    add_filter('the_content', [SupportingFunction::class, 'socButtonMoreCat'], 10);
+    add_filter('the_content', [ContentsPost::class, 'fseoContentsShortcode']);
 }
 initFilterOuter();
