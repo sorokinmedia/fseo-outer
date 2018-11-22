@@ -57,13 +57,14 @@ class SupportingFunction
     public function socButtonMoreCat($content){
 
         $social = get_option('fseo_cat_social', true);
+        $soc_btns = '';
         if ($social == 1) {
             $soc_btns = '<div class="ya_share">
             <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,viber,whatsapp,skype,telegram" data-counter=""></div></div>';
-            $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
-            if (is_category()) {
-                $content = str_replace('<span id="more"></span>', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
-            }
+        }
+        $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
+        if (is_category()) {
+            $content = str_replace('<span id="more"></span>', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
         }
         return $content;
     }

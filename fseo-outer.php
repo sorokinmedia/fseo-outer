@@ -86,7 +86,7 @@ class AddScriptOuter
     public static function script()
     {
         $main_script_url = plugins_url('/common/js/script.js', __FILE__);
-        wp_enqueue_script('custom-script', $main_script_url, array( 'jquery' ), FSEO_OUTER_VER, true);
+        wp_enqueue_script('custom-script-outer', $main_script_url, array( 'jquery' ), FSEO_OUTER_VER, true);
     }
 }
 
@@ -112,7 +112,7 @@ class AddStyleAdmin
     public static function style()
     {
         $style_admin = plugins_url('/common/css/admin-style.css', __FILE__);
-        wp_enqueue_style('style-admin', $style_admin, [], FSEO_OUTER_VER);
+        wp_enqueue_style('style-admin-outer', $style_admin, [], FSEO_OUTER_VER);
     }
 }
 
@@ -125,7 +125,7 @@ class AddStyleOuter
     public static function style()
     {
         $style_url = plugins_url('/common/css/style.css', __FILE__);
-        wp_enqueue_style('custom-style', $style_url, [], FSEO_OUTER_VER);
+        wp_enqueue_style('custom-style-outer', $style_url, [], FSEO_OUTER_VER);
     }
 }
 
@@ -139,8 +139,6 @@ function initFilterOuter() {
         }
         return $protected;
     }, 10, 2 );
-    //add_filter('show_descr_top', [SupportingFunction::class, 'socButtonMoreCat'], 20,1);
-    //add_filter('show_descr_top', [ContentsPost::class, 'fseoContentsShortcode']);
     add_filter('the_content', [SupportingFunction::class, 'socButtonMoreCat'], 10);
     add_filter('the_content', [ContentsPost::class, 'fseoContentsShortcode']);
 }
