@@ -23,6 +23,7 @@ use FseoOuter\common\menu\Menu;
 use FseoOuter\common\SupportingFunction;
 use FseoOuter\common\AutoLogin;
 use FseoOuter\common\contents\ContentsPost;
+use FseoOuter\common\roles\AddRole;
 
 register_activation_hook(__FILE__, ['ActivatorFseo', 'install']);
 register_uninstall_hook(__FILE__, ['RemoveFseo', 'uninstall']);
@@ -51,7 +52,7 @@ class ActivatorFseo
 {
     public static function install()
     {
-
+        AddRole::addRoleLink();
     }
 }
 
@@ -143,3 +144,9 @@ function initFilterOuter() {
     add_filter('the_content', [ContentsPost::class, 'fseoContentsShortcode']);
 }
 initFilterOuter();
+
+// Проверка на роли работает через хук add_action
+add_action( 'plugins_loaded', 'initRoleMetabox' );
+function initRoleMetabox() {
+    AddRole::metaBoxInit();
+}
