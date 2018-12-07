@@ -42,6 +42,7 @@ include_once 'api/Category.php';
 include_once 'api/Link.php';
 include_once 'api/TermLink.php';
 include_once 'api/Wamble.php';
+include_once 'api/PluginUpdate.php';
 include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 /**
