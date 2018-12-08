@@ -2,6 +2,7 @@
 namespace FseoOuter\api;
 use FseoOuter\api\models\ApiAnswer;
 use FseoOuter\api\models\RestMessage;
+use FseoOuter\common\helpers\Translit;
 
 /**
  * Класс для работы с постами через апи
@@ -193,27 +194,29 @@ class Post
     {
         $params = $request->get_body_params();
         if (!empty($params['slug'])) {
+            $params['slug'] = Translit::strToUrl($params['slug']);
             global $wpdb;
-            $counts = $wpdb->get_var($wpdb->prepare("SELECT count(post_name) FROM ".$wpdb->posts ." WHERE post_name like '%s'", $params['slug']) );
-            if ($counts >=1 ) {
+            $counts = $wpdb->get_var($wpdb->prepare("SELECT count(post_name) FROM " . $wpdb->posts . " WHERE post_name like '%s'", $params['slug']));
+            if ($counts >= 1) {
                 $counts = $counts + 1;
                 $params['slug'] = $params['slug'] . '-' . $counts;
             }
-        }
-        if (!wp_update_post([
-            'ID' => $params['id'],
-            'post_name' => $params['slug']
-        ], true)) {
-            return new ApiAnswer([
-                'response' => $params['slug'],
-                'messages' => [
-                    new RestMessage([
-                        'type' => RestMessage::TYPE_SERVER_ERROR,
-                        'message' =>'ОШбика сохранения поста',
-                    ]),
-                ],
-                'status' => ApiAnswer::STATUS_SUCCESS,
-            ]);
+
+            if (!wp_update_post([
+                'ID' => $params['id'],
+                'post_name' => $params['slug']
+            ], true)) {
+                return new ApiAnswer([
+                    'response' => $params['slug'],
+                    'messages' => [
+                        new RestMessage([
+                            'type' => RestMessage::TYPE_SERVER_ERROR,
+                            'message' => 'ОШбика сохранения поста',
+                        ]),
+                    ],
+                    'status' => ApiAnswer::STATUS_SUCCESS,
+                ]);
+            }
         }
         return new ApiAnswer([
             'response' => $params['slug'],
