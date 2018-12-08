@@ -1,5 +1,8 @@
 <?php
 namespace FseoOuter\api;
+use FseoOuter\api\models\ApiAnswer;
+use FseoOuter\api\models\RestMessage;
+
 /**
  * Класс для работы с постами через апи
  * Class Post
@@ -73,6 +76,14 @@ class Post
             'permission_callback' => function () {
                 return current_user_can( 'manage_options' );
             }
+        ]);
+        $check_slug = 'check_slug';
+        register_rest_route($namespace, '/' . $check_slug,[
+            'methods' => 'POST',
+            'callback' => [$this, 'checkSlug'],
+            'permission_callback' => function () {
+                return current_user_can( 'manage_options' );
+            },
         ]);
     }
 
@@ -171,6 +182,49 @@ class Post
             'comment_count' => (int) $count->approved
         ];
         return new \WP_REST_Response($response, 200); // возвращаем ответ с кодом 200 и массивом категорий
+    }
+
+    /**
+     * Проверяет наличие слага
+     * @param \WP_REST_Request $request
+     * @return ApiAnswer
+     */
+    public function checkSlug(\WP_REST_Request $request)
+    {
+        $params = $request->get_body_params();
+        if (!empty($params['slug'])) {
+            global $wpdb;
+            $counts = $wpdb->get_var($wpdb->prepare("SELECT count(post_name) FROM ".$wpdb->posts ." WHERE post_name like '%s'", $params['slug']) );
+            if ($counts >=1 ) {
+                $counts = $counts + 1;
+                $params['slug'] = $params['slug'] . '-' . $counts;
+            }
+        }
+        if (!wp_update_post([
+            'ID' => $params['id'],
+            'post_name' => $params['slug']
+        ], true)) {
+            return new ApiAnswer([
+                'response' => $params['slug'],
+                'messages' => [
+                    new RestMessage([
+                        'type' => RestMessage::TYPE_SERVER_ERROR,
+                        'message' =>'ОШбика сохранения поста',
+                    ]),
+                ],
+                'status' => ApiAnswer::STATUS_SUCCESS,
+            ]);
+        }
+        return new ApiAnswer([
+            'response' => $params['slug'],
+            'messages' => [
+                new RestMessage([
+                    'type' => RestMessage::TYPE_SUCCESS,
+                    'message' =>'Слаг получен',
+                ]),
+            ],
+            'status' => ApiAnswer::STATUS_SUCCESS,
+        ]);
     }
 }
 
