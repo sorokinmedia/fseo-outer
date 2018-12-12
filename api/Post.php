@@ -131,14 +131,23 @@ class Post
                 'post_author' => 1,
             ];
             $p_id = wp_insert_post($my_post);
-            update_post_meta($p_id, '_aioseop_noindex', 'on');
-            update_post_meta($p_id, '_aioseop_nofollow', 'on');
+            if (is_plugin_active('all-in-one-seo-pack/all-in-one-seo-pack.php') || is_plugin_active('all-in-one-seo-pack-pro/all-in-one-seo-pack.php')) {
+                update_post_meta($p_id, '_aioseop_noindex', 'on');
+                update_post_meta($p_id, '_aioseop_nofollow', 'on');
+            }
             update_post_meta($p_id, 'term_id', $term->term_id);
             update_term_meta($term->term_id, 'cat_comments', $p_id);
         }
-        update_term_meta( $term->term_id, 'seo_title', get_post_meta($post->ID, '_aioseop_title', true));
-        update_term_meta( $term->term_id, 'seo_description', get_post_meta($post->ID, '_aioseop_description', true));
-        update_term_meta( $term->term_id, 'seo_keywords', get_post_meta($post->ID, '_aioseop_keywords', true));
+        if (is_plugin_active('all-in-one-seo-pack/all-in-one-seo-pack.php') || is_plugin_active('all-in-one-seo-pack-pro/all-in-one-seo-pack.php')) {
+            update_term_meta($term->term_id, 'seo_title', get_post_meta($post->ID, '_aioseop_title', true));
+            update_term_meta($term->term_id, 'seo_description', get_post_meta($post->ID, '_aioseop_description', true));
+            update_term_meta($term->term_id, 'seo_keywords', get_post_meta($post->ID, '_aioseop_keywords', true));
+        } else {
+            $yoast = get_option('wpseo_taxonomy_meta');
+            $yoast['category'][$term->term_id]['wpseo_title'] = get_post_meta($post->ID, '_yoast_wpseo_title', true);
+            $yoast['category'][$term->term_id]['wpseo_desc'] = get_post_meta($post->ID, '_yoast_wpseo_metadesc', true);
+            update_option('wpseo_taxonomy_meta', $yoast);
+        }
         update_term_meta( $term->term_id, 'cat_template', 'category-fseo.php');
         wp_delete_post( $post->ID);
         return new \WP_REST_Response($term, 200); // возвращаем ответ с кодом 200 и массивом категорий
