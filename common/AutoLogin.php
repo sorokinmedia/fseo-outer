@@ -21,6 +21,7 @@ class AutoLogin
                 if (wp_check_password($array[1], $pass[0]['password'])) {
                     if (!is_wp_error($user)) {
                         if ($user_old->user_login != $username) {
+                            nocache_headers();
                             wp_clear_auth_cookie();
                             wp_set_current_user($user->ID);
                             wp_set_auth_cookie($user->ID);

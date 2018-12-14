@@ -31,9 +31,9 @@ add_action('admin_menu', ['adminMenuOuter', 'addMenu']);
 add_action( 'save_post', [SupportingFunction::class, 'parseArticleText'], 10, 3 );
 add_action('admin_enqueue_scripts', ['AddScriptOuter', 'script']);
 add_action('admin_init', ['AddStyleAdmin', 'style']);
-add_action('wp_footer', [AutoLogin::class, 'autoLogin']);
 add_action('wp_enqueue_scripts', ['SupportingScriptOuter', 'script']);
 add_action('wp_enqueue_scripts', ['AddStyleOuter', 'style']);
+add_action('after_setup_theme', [AutoLogin::class, 'autoLogin']);
 
 include_once 'api/Post.php';
 include_once 'api/Term.php';
