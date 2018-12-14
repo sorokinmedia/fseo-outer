@@ -44,9 +44,9 @@ class Post
                     }
                 ],
             ],
-            'permission_callback' => function () {
+            /*'permission_callback' => function () {
                 return current_user_can( 'manage_options' );
-            },
+            },*/
         ]);
         $post_width_comments = 'post-with-comments/(?P<id>\d+)';
         register_rest_route($namespace, '/' . $post_width_comments, [
@@ -121,6 +121,9 @@ class Post
         update_term_meta( $term->term_id, 'cat_title', $post->post_title);
         $site_url = get_site_url();
         $thumb_size = (in_array($site_url, ['http://myrealproperty.ru/'])) ? 'large' : 'medium';
+        if( ! function_exists('activate_plugin') ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
         update_term_meta( $term->term_id, 'cat_top_description', get_the_post_thumbnail($post, $thumb_size, ['class' => 'alignleft']) . $post->post_content);
         if (!get_term_meta($term->term_id, 'cat_comments', true)) {
             $my_post = [
@@ -138,6 +141,7 @@ class Post
             update_post_meta($p_id, 'term_id', $term->term_id);
             update_term_meta($term->term_id, 'cat_comments', $p_id);
         }
+
         if (is_plugin_active('all-in-one-seo-pack/all_in_one_seo_pack.php') || is_plugin_active('all-in-one-seo-pack-pro/all-in-one-seo-pack.php')) {
             update_term_meta($term->term_id, 'seo_title', get_post_meta($post->ID, '_aioseop_title', true));
             update_term_meta($term->term_id, 'seo_description', get_post_meta($post->ID, '_aioseop_description', true));
