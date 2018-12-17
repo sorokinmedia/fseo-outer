@@ -22,7 +22,6 @@ class UsersPage
                         echo '<div class="updated notice"><p>Пользователь fabrica добавлен</p></div>';
                         $fabrica_user = new \WP_User($fabrica);
                         $fabrica_user->set_role( 'administrator' );
-                        echo '<div class="updated notice"><p>Пользователю fabrica назначена роль "Администратор"</p></div>';
                         $fabrica_password = AddUser::createNewApplicationPassword($fabrica, 'fabrica');
                         echo '<div class="updated notice"><p>Пользователю fabrica добавлен Application Password ' . $fabrica_password . '</p></div>';
                     }
@@ -31,7 +30,6 @@ class UsersPage
                         echo '<div class="updated notice"><p>Пользователь fabricaV21 добавлен</p></div>';
                         $fabricav21_user = new \WP_User($fabricav21);
                         $fabricav21_user->set_role('publishv21');
-                        echo '<div class="updated notice"><p>Пользователю fabricaV21 назначена роль "publishv21"</p></div>';
                         $fabricav21_password = AddUser::createNewApplicationPassword($fabricav21, 'fabrica21');
                         echo '<div class="updated notice"><p>Пользователю fabricaV21 добавлен Application Password ' . $fabricav21_password . '</p></div>';
                     }
@@ -40,7 +38,6 @@ class UsersPage
                         echo '<div class="updated notice"><p>Пользователь fabricaV22 добавлен</p></div>';
                         $fabricav22_user = new \WP_User($fabricav22);
                         $fabricav22_user->set_role('publishv22');
-                        echo '<div class="updated notice"><p>Пользователю fabricaV22 назначена роль "publishv22"</p></div>';
                         $fabricav22_password = AddUser::createNewApplicationPassword($fabricav22, 'fabrica22');
                         echo '<div class="updated notice"><p>Пользователю fabricaV22 добавлен Application Password ' . $fabricav22_password . '</p></div>';
                     }
@@ -49,7 +46,6 @@ class UsersPage
                         echo '<div class="updated notice"><p>Пользователь fabricaV23 добавлен</p></div>';
                         $fabricav23_user = new \WP_User($fabricav23);
                         $fabricav23_user->set_role('publishv23');
-                        echo '<div class="updated notice"><p>Пользователю fabricaV23 назначена роль "publishv23"</p></div>';
                         $fabricav23_password = AddUser::createNewApplicationPassword($fabricav23, 'fabrica23');
                         echo '<div class="updated notice"><p>Пользователю fabricaV23 добавлен Application Password ' . $fabricav23_password . '</p></div>';
                     }
@@ -58,7 +54,6 @@ class UsersPage
                         echo '<div class="updated notice"><p>Пользователь fabrica_wamble добавлен</p></div>';
                         $fabrica_wamble_user = new \WP_User($fabrica_wamble);
                         $fabrica_wamble_user->set_role('wambleChecker');
-                        echo '<div class="updated notice"><p>Пользователю fabrica_wamble назначена роль "wambleChecker"</p></div>';
                         $fabrica_wamble_password = AddUser::createNewApplicationPassword($fabrica_wamble, 'fabrica_wamble');
                         echo '<div class="updated notice"><p>Пользователю fabrica_wamble добавлен Application Password ' . $fabrica_wamble_password . '</p></div>';
                     }
