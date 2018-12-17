@@ -284,10 +284,13 @@ class ContentsPost
 
     public function fseoContentsShortcode($content)
     {
-        $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<span id="more-\1"></span></p>' . '[contents]', $content);
-        $args = [];
-        $posts = ContentsPost::init($args);
-        return $posts->shortcode($content);
+        if (get_option('fseo_cat_contents', true) == 1) {
+            $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<span id="more-\1"></span></p>' . '[contents]', $content);
+            $args = [];
+            $posts = ContentsPost::init($args);
+            return $posts->shortcode($content);
+        }
+        return $content;
     }
 
 }
