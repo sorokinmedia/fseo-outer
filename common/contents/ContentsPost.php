@@ -284,10 +284,12 @@ class ContentsPost
 
     public function fseoContentsShortcode($content)
     {
-        if (get_option('fseo_cat_contents', true) == 1) {
+        $social_post = (int) get_option('fseo_outer_contents', true);
+        $social_cat = (int) get_option('fseo_cat_contents', true);
+        if (($social_post === 1 && !is_category()) || ($social_cat === 1 && is_category())) {
             $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<span id="more-\1"></span></p>' . '[contents]', $content);
             $args = [];
-            $posts = ContentsPost::init($args);
+            $posts = self::init($args);
             return $posts->shortcode($content);
         }
         return $content;

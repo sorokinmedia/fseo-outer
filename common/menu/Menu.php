@@ -46,6 +46,8 @@ class Menu
                 self::usersMenu();
             }
         );
+        register_setting('fseo-outer-settings-group', 'fseo_outer_social');
+        register_setting('fseo-outer-settings-group', 'fseo_outer_contents');
     }
 
     /**

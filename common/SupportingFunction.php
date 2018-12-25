@@ -56,9 +56,10 @@ class SupportingFunction
      */
     public function socButtonMoreCat($content){
 
-        $social = get_option('fseo_cat_social', true);
+        $social_post = (int) get_option('fseo_outer_social', true);
+        $social_cat = (int) get_option('fseo_cat_social', true);
         $soc_btns = '';
-        if ($social == 1) {
+        if (($social_post === 1 && !is_category()) || ($social_cat === 1 && is_category())) {
             $soc_btns = '<div class="ya_share">
             <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,viber,whatsapp,skype,telegram" data-counter=""></div></div>';
         }
