@@ -41,7 +41,7 @@ class PluginsPage
                         AddPlugin::activatePlugin(AddPlugin::PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK);
                     }
                     echo '<div class="updated notice"><p>Плагины установлены и активированы</p></div>';
-                } 
+                }
                 ?>
                 <p class="submit">
                     <?php if (is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_API)){
@@ -77,44 +77,10 @@ class PluginsPage
                     $_db_options = 'options';
                     $wpdb->show_errors();
                     $table_name = $wpdb->prefix . $_db_options; // имя таблицы
-                    $check = $wpdb->query(
-                        $wpdb->prepare(
-                            "SELECT option_id FROM $table_name WHERE option_name = 'peb_caption'"
-                        )
-                    );
-                    if ($check !== 0) {
-                        $wpdb->query(
-                            $wpdb->prepare(
-                                "UPDATE $table_name SET option_value = " . $peb_caption . " WHERE option_name LIKE 'peb_caption'"
-                            )
-                        );
-                        $wpdb->query(
-                            $wpdb->prepare(
-                                "UPDATE $table_name SET option_value = " . $peb_before . " WHERE option_name LIKE 'peb_before'"
-                            )
-                        );
-                        $wpdb->query(
-                            $wpdb->prepare(
-                                "UPDATE $table_name SET option_value = " . $peb_after . " WHERE option_name LIKE 'peb_after'"
-                            )
-                        );
-                    } else {
-                        $wpdb->query(
-                            $wpdb->prepare(
-                                "INSERT INTO $table_name (option_name, option_value, autoload) VALUES ('peb_caption', $peb_caption, 'yes');"
-                            )
-                        );
-                        $wpdb->query(
-                            $wpdb->prepare(
-                                "INSERT INTO $table_name (option_name, option_value, autoload) VALUES ('peb_before', $peb_before, 'yes');"
-                            )
-                        );
-                        $wpdb->query(
-                            $wpdb->prepare(
-                                "INSERT INTO $table_name (option_name, option_value, autoload) VALUES ('peb_after', $peb_after, 'yes');"
-                            )
-                        );
-                    }
+                    $wpdb->query("UPDATE $table_name SET option_value = " . $peb_caption . " WHERE option_name = 'peb_caption'");
+                    $wpdb->query("UPDATE $table_name SET option_value = " . $peb_before . " WHERE option_name = 'peb_before'");
+                    $wpdb->query("UPDATE $table_name SET option_value = " . $peb_after . " WHERE option_name = 'peb_after'");
+
                 }
                 ?>
                 <p class="submit">
