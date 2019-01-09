@@ -143,6 +143,7 @@ function initFilterOuter() {
     }, 10, 2 );
     add_filter('the_content', [SupportingFunction::class, 'socButtonMoreCat'], 10);
     add_filter('the_content', [ContentsPost::class, 'fseoContentsShortcode']);
+    add_filter('jpeg_quality', [SupportingFunction::class, 'imgQuality']);
 }
 initFilterOuter();
 

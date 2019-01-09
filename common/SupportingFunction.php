@@ -69,4 +69,13 @@ class SupportingFunction
         }
         return $content;
     }
+
+    /**
+     * Отключае сжатие wp для картинок
+     * @param $arg
+     * @return int
+     */
+    public function imgQuality($arg) {
+        return (int)100;
+    }
 }
