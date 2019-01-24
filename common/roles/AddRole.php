@@ -91,7 +91,7 @@ class AddRole
         }
         $user = wp_get_current_user();
         if ($user->ID != 0) {
-            add_action('init', 'metaBoxInit');
+            add_action('init', [__CLASS__,'metaBoxInit']);
         }
     }
 
