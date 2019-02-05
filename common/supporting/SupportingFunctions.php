@@ -45,8 +45,10 @@ function category_page_nav()
             </div>
             <!--/noindex-->
             <?php
-            if ($template == 'category-fseo-php' || $template == 'fseo-cat-php') {
-                echo do_shortcode('[rek_top]');
+            if (is_plugin_active('fseo-plugins/f-seo-plugins.php')) {
+                if ($template == 'category-fseo-php' || $template == 'fseo-cat-php') {
+                    echo do_shortcode('[rek_top]');
+                }
             }
             // после заголовка ?>
         </div>
