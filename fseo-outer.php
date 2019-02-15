@@ -34,6 +34,7 @@ add_action('admin_init', ['AddStyleAdmin', 'style']);
 add_action('wp_enqueue_scripts', ['SupportingScriptOuter', 'script']);
 add_action('wp_enqueue_scripts', ['AddStyleOuter', 'style']);
 add_action('after_setup_theme', [AutoLogin::class, 'autoLogin']);
+add_action('wp_enqueue_editor', [SupportingFunction::class, 'tnlAddNofollow']);
 
 include_once 'api/Post.php';
 include_once 'api/Term.php';

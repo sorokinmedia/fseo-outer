@@ -78,4 +78,22 @@ class SupportingFunction
     public function imgQuality($arg) {
         return (int)100;
     }
+
+    /**
+     * nofollow в диалоге вставки ссылки в админке
+     */
+    public function tnlAddNofollow() {
+        wp_deregister_script('wplink');
+        wp_register_script('wplink',  plugins_url( '/js/nofollow.min.js', __FILE__ ), array('jquery'), false, 1);
+        wp_enqueue_script('wplink');
+        wp_localize_script('wplink', 'wpLinkL10n', array(
+            'title' => __('Insert/edit link'),
+            'update' => __('Update'),
+            'save' => __('Add Link'),
+            'noTitle' => __('(no title)'),
+            'labelTitle' => __( 'Title' ),
+            'noMatchesFound' => __('No results found.'),
+            'noFollow' => __(' Добавить <code>rel="nofollow"</code> к ссылке', 'title-and-nofollow-for-links')
+        ));
+    }
 }
