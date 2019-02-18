@@ -328,3 +328,17 @@
     display: inline;
     margin-right: 10px;
 }
+@media (max-width: 767px) {
+    ul .img_rounded, ol .img_rounded{
+        display: none;
+    }
+    ul .round100, ol .round100 {
+        display: none;
+    }
+    ul .round150, ol .round150 {
+        display: none;
+    }
+    ul .round200, ol .round200 {
+        display: none;
+    }
+}
