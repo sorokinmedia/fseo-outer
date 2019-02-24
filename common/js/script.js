@@ -85,8 +85,9 @@ jQuery(document).ready(function(){
         }
     }
 
-});
 
+
+});
 // Ф-я чтения выделенного
 function ShowSelection()
 {

@@ -342,3 +342,26 @@
         display: none;
     }
 }
+.hide_cock_over img{
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+}
+.hide_cock_over{
+    position: relative;
+    box-sizing: border-box;
+    z-index: 9999;
+}
+.hide_cock_over_after{
+    position: absolute;
+    content: '18+';
+    text-align: center;
+    font-weight: 600;
+    font-size: 145px;
+    background-color: #fff;
+    opacity: 0.7;
+    display: block;
+    padding: 1%;
+    box-sizing: border-box;
+    cursor: pointer;
+    overflow: hidden;
+}
