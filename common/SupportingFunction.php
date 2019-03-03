@@ -61,7 +61,7 @@ class SupportingFunction
         $soc_btns = '';
         if (($social_post === 1 && !is_category()) || ($social_cat === 1 && is_category())) {
             $soc_btns = '<div class="ya_share">
-            <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,viber,whatsapp,skype,telegram" data-counter=""></div></div>';
+            <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,twitter,viber,whatsapp,skype,telegram" data-counter=""></div></div>';
         }
         $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
         if (is_category()) {
