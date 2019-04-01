@@ -54,7 +54,7 @@ class SupportingFunction
      * @param $content
      * @return mixed|null|string|string[]
      */
-    public function socButtonMoreCat($content){
+    public static function socButtonMoreCat($content){
 
         $social_post = (int) get_option('fseo_outer_social', true);
         $social_cat = (int) get_option('fseo_cat_social', true);
@@ -75,7 +75,7 @@ class SupportingFunction
      * @param $arg
      * @return int
      */
-    public function imgQuality($arg) {
+    public static function imgQuality($arg) {
         return (int)100;
     }
 
