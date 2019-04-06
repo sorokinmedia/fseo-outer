@@ -3,11 +3,11 @@ var LinkAreaJs;
 var textArea;
 var textCarPos;
 
-jQuery(document).ready(function(){
+jQuery(document).ready(function () {
     var url = jQuery(location).attr('href');
-    if ((url.indexOf('post.php') + 1 && url.indexOf('action=edit') + 1) || (url.indexOf('post-new.php') + 1)){
+    if ((url.indexOf('post.php') + 1 && url.indexOf('action=edit') + 1) || (url.indexOf('post-new.php') + 1)) {
         var login_box_text = jQuery('#wp-admin-bar-my-account').text();
-        if(login_box_text.indexOf('fabricav23') + 1){
+        if (login_box_text.indexOf('fabricav23') + 1) {
             renderArticleStata()
             jQuery('#content').focusout(function () {
                 sendGET(
@@ -20,14 +20,12 @@ jQuery(document).ready(function(){
     }
 
     jQuery('.option_input').slideUp('fast');
-    jQuery('.input_title > h3').click(function(){
-        if(jQuery(this).parent().next('.option_input').css('display')=='none')
-        {
+    jQuery('.input_title > h3').click(function () {
+        if (jQuery(this).parent().next('.option_input').css('display') == 'none') {
             jQuery(this).removeClass('inactive');
             jQuery(this).addClass('active');
         }
-        else
-        {
+        else {
             jQuery(this).removeClass('active');
             jQuery(this).addClass('inactive');
         }
@@ -47,16 +45,16 @@ jQuery(document).ready(function(){
         selectHandler(jQuery(this));
     });
 
-    if(!jQuery('#insert-media-button').attr('class')) {
+    if (!jQuery('#insert-media-button').attr('class')) {
         jQuery('#wp-content-editor-tools').remove();
         jQuery('#postimagediv').remove();
     }
 
     var pathname = jQuery(location).attr('host');
-    if(!qadmin_ajax_url) var qadmin_ajax_url = '//' + pathname + '/wp-admin/admin-ajax.php';
+    if (!qadmin_ajax_url) var qadmin_ajax_url = '//' + pathname + '/wp-admin/admin-ajax.php';
 
-    document.onkeydown = function(e) {
-        if(location !== '/wp-admin/term.php' || location !== '/wp-admin/post.php') return null;
+    document.onkeydown = function (e) {
+        if (location !== '/wp-admin/term.php' || location !== '/wp-admin/post.php') return null;
         e = e || window.event;
         window.eeCommon.emit('commonKeyDown', e);
         if (e.ctrlKey && e.keyCode === 73) { //ctrl+i
@@ -64,7 +62,7 @@ jQuery(document).ready(function(){
             if (window.getSelection) {
                 textCarPos = textArea[0].selectionStart; // Мониторим положение курсора в редакторе
             }
-            wrapSelected(ShowSelection(),'italic')
+            wrapSelected(ShowSelection(), 'italic')
             window.getSelection().removeAllRanges();
         }
         if (e.ctrlKey && e.keyCode === 83) { //ctrl+s
@@ -80,30 +78,27 @@ jQuery(document).ready(function(){
             if (window.getSelection) {
                 textCarPos = textArea[0].selectionStart; // Мониторим положение курсора в редакторе
             }
-            wrapSelected(ShowSelection(),'bold')
+            wrapSelected(ShowSelection(), 'bold')
             window.getSelection().removeAllRanges();
         }
     }
 
 
-
 });
+
 // Ф-я чтения выделенного
-function ShowSelection()
-{
+function ShowSelection() {
     var textComponent = LinkAreaJs;
     var selectedText;
     // IE version
-    if (document.selection != undefined)
-    {
+    if (document.selection != undefined) {
         textComponent.focus();
         var sel = document.selection.createRange();
         selectedText = sel.text;
         document.selection.empty();
     }
     // Mozilla version
-    else if (textComponent.selectionStart != undefined)
-    {
+    else if (textComponent.selectionStart != undefined) {
         var startPos = textComponent.selectionStart;
         var endPos = textComponent.selectionEnd;
         selectedText = textComponent.value.substring(startPos, endPos)
@@ -111,7 +106,7 @@ function ShowSelection()
     return selectedText;
 }
 
-function OnLinkSelect(redactor){
+function OnLinkSelect(redactor) {
 
     var url = jQuery(location).attr('href');
 
@@ -119,7 +114,7 @@ function OnLinkSelect(redactor){
 
     var stxt = ShowSelection();
 
-    if( 2 < stxt.length && stxt.length < 50){
+    if (2 < stxt.length && stxt.length < 50) {
         AutoLink = stxt;
     }
     jQuery('#qt_content_link').click(function () {
@@ -135,9 +130,9 @@ function OnLinkSelect(redactor){
 
 function autoLinkInsert() {
     jQuery("#wp-link-search").focus();
-    console.log('Вставлю '+AutoLink);
+    console.log('Вставлю ' + AutoLink);
     jQuery('#wp-link-search').val(AutoLink);
-    var e = jQuery.Event("keyup", { keyCode: 13}); //"keydown" if that's what you're doing
+    var e = jQuery.Event("keyup", {keyCode: 13}); //"keydown" if that's what you're doing
     jQuery('#wp-link-search').keyup();
 }
 
@@ -147,7 +142,7 @@ function autoLinkInsert() {
 function agregateCounters(redactor) {
     //var img_reg = new RegExp(<img([^>]*[^/])>, 'gi')
     var text = redactor.val()
-    if(!text) return false;
+    if (!text) return false;
     var imgs = text.match(/<img[^>]* src=\"([^\"]*)\"[^>]*>/g)
     var frames = text.match(/\[\/embed\]/g)
     var divs_warring = text.match(/<div class=\"warning\">/g)
@@ -160,14 +155,14 @@ function agregateCounters(redactor) {
 
     var outLinkCounter = 0;
     var docsCounter = 0;
-    if(links) links.forEach( function (link) {
-        if(!link.indexOf(window.location.host) + 1) outLinkCounter++;
-        if(
-            link.indexOf('.doc')  + 1  ||
-            link.indexOf('.docx')  + 1 ||
-            link.indexOf('.txt')   + 1 ||
-            link.indexOf('.pdf')   + 1 ||
-            link.indexOf('.ods')  + 1
+    if (links) links.forEach(function (link) {
+        if (!link.indexOf(window.location.host) + 1) outLinkCounter++;
+        if (
+            link.indexOf('.doc') + 1 ||
+            link.indexOf('.docx') + 1 ||
+            link.indexOf('.txt') + 1 ||
+            link.indexOf('.pdf') + 1 ||
+            link.indexOf('.ods') + 1
         ) docsCounter++;
     })
 
@@ -178,21 +173,22 @@ function agregateCounters(redactor) {
 
     //console.log(thmb_count)
 
-    if(divs_warring) blocks_count += divs_warring.length
-    if(divs_advice) blocks_count += divs_advice.length
-    if(divs_stop) blocks_count += divs_stop.length
+    if (divs_warring) blocks_count += divs_warring.length
+    if (divs_advice) blocks_count += divs_advice.length
+    if (divs_stop) blocks_count += divs_stop.length
 
     return {
         blocks: blocks_count,
         videos: frames ? frames.length : 0,
-        imgs: imgs ? imgs.length + thmb_count: thmb_count,
+        imgs: imgs ? imgs.length + thmb_count : thmb_count,
         out_links: outLinkCounter,
         docs: docsCounter,
         zakon: divs_zakon ? divs_zakon.length : 0
     }
 }
-function  renderArticleStata() {
-    if(!googleImagesPostId) return false;
+
+function renderArticleStata() {
+    if (!googleImagesPostId) return false;
     var side_ar_st = document.createElement('div');
     side_ar_st.className = 'article-stata postbox ';
     document.getElementById('side-sortables').insertBefore(
@@ -205,7 +201,8 @@ function  renderArticleStata() {
         + '&site_name=' + jQuery(location).attr('host')
     )
 }
-function sendGET(call){
+
+function sendGET(call) {
     var xhr = new XMLHttpRequest();
 
     console.log('GETTING TASK PRICE...')
@@ -216,7 +213,7 @@ function sendGET(call){
 
     xhr.send()
 
-    xhr.onreadystatechange = function() { // (3)
+    xhr.onreadystatechange = function () { // (3)
         if (xhr.readyState !== 4) return;
 
         if (xhr.status !== 200) {
@@ -224,14 +221,15 @@ function sendGET(call){
         } else {
             console.log('Статус ' + xhr.status)
             var resp = JSON.parse(xhr.responseText).response
-            if(!resp){
+            if (!resp) {
                 console.log(JSON.parse(xhr.responseText).messages[0].message);
                 return
-            } ;
-            if(!jQuery('#content')) return false
+            }
+            ;
+            if (!jQuery('#content')) return false
             var stata = agregateCounters(jQuery('#content'))
             var priceData = [];
-            switch (resp.step){
+            switch (resp.step) {
                 case 3:
                     priceData = [
                         {title: 'Блоки внимания', price: resp.price_blocks, value: stata.blocks},
@@ -247,26 +245,27 @@ function sendGET(call){
                     ]
                     break;
             }
-            var htmlStr = ''; var finalPrice = resp.base_price;
+            var htmlStr = '';
+            var finalPrice = resp.base_price;
             priceData.forEach(function (elem) {
                 htmlStr += '<div class="rb_one">'
-                    +'<strong>' + elem.title + '</strong>'
-                    +renderBlock(Number(elem.price).toFixed(2), elem.value)
-                    +'</div>';
+                    + '<strong>' + elem.title + '</strong>'
+                    + renderBlock(Number(elem.price).toFixed(2), elem.value)
+                    + '</div>';
                 finalPrice += Number(elem.value) * Number(elem.price);
             });
 
             jQuery('.article-stata').html(
                 '<h2 class="hndle ui-sortable-handle">Цена</h2>'
-                +'<div class="st_wrap">'
-                +htmlStr
-                +'<div class="rb_all_price">'
-                +'<button id="rb_refresh" onclick="refresh_rb_handle(event)">Обновить</button>'
-                +'<strong>'
+                + '<div class="st_wrap">'
+                + htmlStr
+                + '<div class="rb_all_price">'
+                + '<button id="rb_refresh" onclick="refresh_rb_handle(event)">Обновить</button>'
+                + '<strong>'
                 + Number(finalPrice).toFixed(2)
-                +' руб</strong>'
-                +'<span>Приблизительная стоимость</span></div>'
-                +'</div>'
+                + ' руб</strong>'
+                + '<span>Приблизительная стоимость</span></div>'
+                + '</div>'
             )
         }
 
@@ -282,23 +281,23 @@ function refresh_rb_handle(e) {
     )
 }
 
-function renderBlock(price, count){
+function renderBlock(price, count) {
     return '<div class="rb_one_counter">'
-        +'<div class="rb_left">'
-        +'<div class="rb_count">' + count + ' шт</div>'
-        +'<div class="rb_price">' + price + ' руб.шт</div>'
-        +'</div>'
-        +'<div class="rb_right">'
-        +count*price + ' руб'
-        +'</div>'
-        +'</div>'
+        + '<div class="rb_left">'
+        + '<div class="rb_count">' + count + ' шт</div>'
+        + '<div class="rb_price">' + price + ' руб.шт</div>'
+        + '</div>'
+        + '<div class="rb_right">'
+        + count * price + ' руб'
+        + '</div>'
+        + '</div>'
 }
 
-function wrapSelected(selected, type){
-    if(!selected) return false
+function wrapSelected(selected, type) {
+    if (!selected) return false
     var tagBefore = ''
     var tagAfter = ''
-    switch(type){
+    switch (type) {
         case 'bold':
             tagBefore = '<strong>'
             tagAfter = '</strong>'
@@ -309,7 +308,7 @@ function wrapSelected(selected, type){
             break;
     }
     text = textArea.val()
-    if(textCarPos != undefined) {
+    if (textCarPos != undefined) {
         textArea.val(
             text.slice(0, textCarPos)
             + tagBefore
@@ -319,13 +318,13 @@ function wrapSelected(selected, type){
         );
 
     }
-    else{
+    else {
         textArea.trigger('focus');
         range = document.selection.createRange();
         range.text = selected;
     }
 }
 
-function selectHandler(redactor){
+function selectHandler(redactor) {
     textArea = redactor;
 }

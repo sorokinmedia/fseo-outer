@@ -11,15 +11,14 @@ use FseoOuter\common\view\UsersPage;
  */
 class Menu
 {
-
     public static function menu() {
         // верхний уровень
-        add_menu_page('Fseo-outer', 'Fseo-outer', 'manage_option', 'fseo-outer', 'sb_admin_fseo-outer');
+        add_menu_page('Fseo-outer', 'F-seo-Outer', 'manage_option', 'fseo-outer', 'sb_admin_fseo-outer');
         // подуровни
         // Основные настройки
         add_submenu_page( 'fseo-outer',
-            'Settings',
-            'Settings',
+            'Настройки постов',
+            'Настройки постов',
             'manage_options',
             'fseo-outer-settings',
             function() {
@@ -28,8 +27,8 @@ class Menu
         );
         // Работа с плагинами
         add_submenu_page( 'fseo-outer',
-            'Settings plugins',
-            'Settings plugins',
+            'Работа по API',
+            'Работа по API',
             'manage_options',
             'fseo-outer-plugins',
             function() {
@@ -38,8 +37,8 @@ class Menu
         );
         // Работа с пользователями
         add_submenu_page( 'fseo-outer',
-            'Settings users',
-            'Settings users',
+            'Пользователи',
+            'Пользователи',
             'manage_options',
             'fseo-outer-users',
             function() {

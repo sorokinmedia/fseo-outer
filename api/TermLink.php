@@ -1,4 +1,5 @@
 <?php
+
 namespace FseoOuter\api;
 
 use FseoOuter\api\models\ApiAnswer;
@@ -20,18 +21,18 @@ class TermLink
             'callback' => [$this, 'getTermText'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
         ]);
         $update = 'update_cat_meta';
-        register_rest_route($namespace, '/' . $update,[
+        register_rest_route($namespace, '/' . $update, [
             'methods' => 'POST',
             'callback' => [$this, 'updateTermText'],
             'permission_callback' => function () {
-                return current_user_can( 'manage_options' );
+                return current_user_can('manage_options');
             },
         ]);
     }
@@ -50,7 +51,7 @@ class TermLink
             'messages' => [
                 new RestMessage([
                     'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Текст категории получен',
+                    'message' => 'Текст категории получен',
                 ]),
             ],
             'status' => ApiAnswer::STATUS_SUCCESS,
@@ -65,19 +66,20 @@ class TermLink
     public function updateTermText(\WP_REST_Request $request)
     {
         $params = $request->get_body_params();
-        update_term_meta( $params['id'], 'cat_top_description', $params['text']);
+        update_term_meta($params['id'], 'cat_top_description', $params['text']);
         return new ApiAnswer([
             'response' => null,
             'messages' => [
                 new RestMessage([
                     'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Текст обновлен',
+                    'message' => 'Текст обновлен',
                 ]),
             ],
             'status' => ApiAnswer::STATUS_SUCCESS,
         ]);
     }
 }
+
 /**
  * add custom function to rest_api_init action
  */

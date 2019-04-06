@@ -1,6 +1,11 @@
 <?php
+
 namespace FseoOuter\common\setting;
 
+/**
+ * Class AddPlugin
+ * @package FseoOuter\common\setting
+ */
 class AddPlugin
 {
     // названия плагинов
@@ -18,9 +23,10 @@ class AddPlugin
     /**
      * инсталл плагина
      */
-    public static function installPlugin($plugin){
-        include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' ); //for plugins_api..
-        $api = plugins_api( 'plugin_information', [
+    public static function installPlugin($plugin)
+    {
+        include_once ABSPATH . 'wp-admin/includes/plugin-install.php'; //for plugins_api..
+        $api = plugins_api('plugin_information', [
             'slug' => $plugin,
             'fields' => [
                 'short_description' => false,
@@ -38,10 +44,10 @@ class AddPlugin
             ],
         ]);
         //includes necessary for Plugin_Upgrader and Plugin_Installer_Skin
-        include_once( ABSPATH . 'wp-admin/includes/file.php' );
-        include_once( ABSPATH . 'wp-admin/includes/misc.php' );
-        include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-        $upgrader = new \Plugin_Upgrader( new QuietSkin() );
+        include_once ABSPATH . 'wp-admin/includes/file.php';
+        include_once ABSPATH . 'wp-admin/includes/misc.php';
+        include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+        $upgrader = new \Plugin_Upgrader(new QuietSkin());
         $upgrader->install($api->download_link);
     }
 
@@ -51,14 +57,12 @@ class AddPlugin
      */
     public static function activatePlugin($plugin)
     {
-        if( ! function_exists('activate_plugin') ) {
+        if (!function_exists('activate_plugin')) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
-
-        $plugin = ABSPATH . 'wp-content/plugins/'. $plugin;
-
-        if( ! is_plugin_active( $plugin ) ) {
-            activate_plugin( $plugin );
+        $plugin = ABSPATH . 'wp-content/plugins/' . $plugin;
+        if (!is_plugin_active($plugin)) {
+            activate_plugin($plugin);
         }
     }
 }

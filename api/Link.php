@@ -1,4 +1,5 @@
 <?php
+
 namespace FseoOuter\api;
 
 use FseoOuter\api\models\ApiAnswer;
@@ -10,6 +11,9 @@ use FseoOuter\api\models\RestMessage;
  */
 class Link
 {
+    /**
+     * Link constructor.
+     */
     public function __construct()
     {
         $version = '2';
@@ -20,13 +24,13 @@ class Link
             'callback' => [$this, 'getPostInnerCat'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
                 'post_id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
@@ -37,13 +41,13 @@ class Link
             'callback' => [$this, 'getThematicLink'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
                 'post_id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
@@ -54,8 +58,8 @@ class Link
             'callback' => [$this, 'getThematicLinkGk'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
@@ -66,8 +70,8 @@ class Link
             'callback' => [$this, 'getMainCat'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
@@ -91,11 +95,43 @@ class Link
             'messages' => [
                 new RestMessage([
                     'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Посты и внутренние категории получены',
+                    'message' => 'Посты и внутренние категории получены',
                 ]),
             ],
             'status' => ApiAnswer::STATUS_SUCCESS,
         ]);
+    }
+
+    /**
+     * @param int $cat_id
+     * @param int|null $post_id
+     * @return array
+     */
+    public function createArrayPostInnerCat(int $cat_id, int $post_id = null): array
+    {
+        $resalt = [];
+        $args_post = [ //Набор параметров для поиска
+            'category__in' => $cat_id,
+            'post_type' => 'post',
+            'post_status' => 'publish',
+            'showposts' => 9999,
+            'exclude' => $post_id
+        ];
+        $posts = get_posts($args_post); //получаем посты
+        $cats = get_categories('child_of=' . $cat_id); // получаем внутренние категории
+        $post_data = [];
+        $cat_data = [];
+        foreach ($posts as $post) {
+            $post = ['id' => $post->ID, 'title' => $post->post_title, 'link' => get_permalink($post->ID)];
+            $post_data[] = $post;
+        }
+        foreach ($cats as $cat) {
+            $cat = ['term_id' => $cat->term_id, 'name' => $cat->name, 'link' => get_category_link($cat->term_id)];
+            $cat_data[] = $cat;
+        }
+        $resalt['post'] = $post_data;
+        $resalt['inner_cat'] = $cat_data;
+        return $resalt;
     }
 
     /**
@@ -111,96 +147,15 @@ class Link
         $post_id = $request->get_param('post_id');
         $result = $this->createArrayPostThematic($cat_id, $post_id);
         return new ApiAnswer([
-            'response' =>  $result,
+            'response' => $result,
             'messages' => [
                 new RestMessage([
                     'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Получено',
+                    'message' => 'Получено',
                 ]),
             ],
             'status' => ApiAnswer::STATUS_SUCCESS,
         ]);
-    }
-
-    /**
-     * Получает список для тематической линковки
-     * урл вида сайт/wp-json/wp/v2/get_thematic_link/1 - где цифра ID рубрики
-     * @param \WP_REST_Request $request
-     * @return ApiAnswer
-     */
-    public function getThematicLinkGk(\WP_REST_Request $request)
-    {
-        $cat_id = $request->get_param('id');
-        $result = $this->createArrayPostThematic($cat_id, null, true);
-        return new ApiAnswer([
-            'response' =>  $result,
-            'messages' => [
-                new RestMessage([
-                    'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Получено',
-                ]),
-            ],
-            'status' => ApiAnswer::STATUS_SUCCESS,
-        ]);
-    }
-
-    /**
-     * Получает структуру сайта (родительские рубрики)
-     * урл вида сайт/wp-json/wp/v2/get_main_cat
-     * @param \WP_REST_Request $request
-     * @return ApiAnswer
-     */
-    public function getMainCat(\WP_REST_Request $request)
-    {
-        $category_main = $this->createArrayMainCat();
-        return new ApiAnswer([
-            'response' => $category_main,
-            'messages' => [
-                new RestMessage([
-                    'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Родительские категории получены',
-                ]),
-            ],
-            'status' => ApiAnswer::STATUS_SUCCESS,
-        ]);
-    }
-
-    public function createArrayMainCat()
-    {
-        $categorys = get_categories('parent=0');
-        $cat_data = [];
-        foreach ($categorys as $cat) {
-            $cat = ['term_id' => $cat->term_id, 'name' => $cat->name, 'link' => get_category_link($cat->term_id)];
-            array_push($cat_data, $cat);
-        }
-        return $cat_data;
-    }
-
-    public function createArrayPostInnerCat(int $cat_id, int $post_id = null) : array
-    {
-        $resalt = [];
-        $args_post = [ //Набор параметров для поиска
-            'category__in' => $cat_id,
-            'post_type'   => 'post',
-            'post_status' => 'publish',
-            'showposts' => 9999,
-            'exclude' => $post_id
-        ];
-        $posts = get_posts($args_post); //получаем посты
-        $cats = get_categories('child_of=' . $cat_id); // получаем внутренние категории
-        $post_data = [];
-        $cat_data = [];
-        foreach ($posts as $post) {
-            $post = ['id' => $post->ID, 'title' => $post->post_title, 'link' => get_permalink($post->ID)];
-            array_push($post_data, $post);
-        }
-        foreach ($cats as $cat) {
-            $cat = ['term_id' => $cat->term_id, 'name' => $cat->name, 'link' => get_category_link($cat->term_id)];
-            array_push($cat_data, $cat);
-        }
-        $resalt['post'] = $post_data;
-        $resalt['inner_cat'] = $cat_data;
-        return $resalt;
     }
 
     /**
@@ -210,22 +165,22 @@ class Link
      * @param int|null $gk
      * @return array
      */
-    public function createArrayPostThematic(int $cat_id, int $post_id = null, int $gk = null) : array
+    public function createArrayPostThematic(int $cat_id, int $post_id = null, int $gk = null): array
     {
         $args_post = [ //Набор параметров для поиска
             'category__in' => $cat_id,
-            'post_type'   => 'post',
+            'post_type' => 'post',
             'post_status' => 'publish',
             'showposts' => 9999,
             'exclude' => $post_id
         ];
         $posts = get_posts($args_post); //получаем посты
         $cats = get_categories('parent=' . $cat_id); // получаем внутренние категории
-        if (is_null($gk)) {
+        if ($gk === null) {
             $cat = get_category($cat_id);
-            array_push($cats, $cat);
+            $cats[] = $cat;
         }
-        $common_count =  count($posts) + count($cats); // считаем сколько постов и ссылок на категории
+        $common_count = count($posts) + count($cats); // считаем сколько постов и ссылок на категории
         $result['necessarily']['post'] = [];
         $result['necessarily']['inner_cat'] = [];
         $result['unnecessarily']['post'] = [];
@@ -239,13 +194,13 @@ class Link
         if ($posts) { // Добавляем посты если есть в результаты
             foreach ($posts as $post) {
                 $post = ['id' => $post->ID, 'title' => $post->post_title, 'link' => get_permalink($post->ID)];
-                array_push($result['necessarily']['post'], $post);
+                $result['necessarily']['post'][] = $post;
             }
         }
         if ($cats) { // Добавляем категории если есть в результаты
             foreach ($cats as $cat) {
                 $cat = ['term_id' => $cat->term_id, 'name' => $cat->name, 'link' => get_category_link($cat->term_id)];
-                array_push($result['necessarily']['inner_cat'], $cat);
+                $result['necessarily']['inner_cat'][] = $cat;
             }
         }
         if ($gk !== true) {
@@ -281,7 +236,7 @@ class Link
                 if ($posts_inner) { // пишем необзятельные посты
                     foreach ($posts_inner as $post) {
                         $post = ['id' => $post->ID, 'title' => $post->post_title, 'link' => get_permalink($post->ID)];
-                        array_push($result['unnecessarily']['post'], $post);
+                        $result['unnecessarily']['post'][] = $post;
                     }
                 }
                 $cats_inner = get_categories('parent=' . $cat->term_id); // получаем внутренние категории
@@ -289,15 +244,15 @@ class Link
                 if ($cats_inner) { // пишем необзятельные рубрики
                     $check_category++;
                     foreach ($cats_inner as $cat_inner) {
-                        array_push($result['unnecessarily']['inner_cat'], ['term_id' => $cat_inner->term_id, 'name' => $cat_inner->name, 'link' => get_category_link($cat_inner->term_id)]);
+                        $result['unnecessarily']['inner_cat'][] = ['term_id' => $cat_inner->term_id, 'name' => $cat_inner->name, 'link' => get_category_link($cat_inner->term_id)];
                     }
                 }
             }
             // Считаем есть ли достаточное кол-во
             $common_count = $common_count + count($result['unnecessarily']['inner_cat']) + count($result['unnecessarily']['post']);
             if ($check_category > 0 && $common_count <= 30) { // Если не хватило и внутри есть подрубрики, запускаем ещё раз функцию
-                $result = $this->addInnerCheck($main_cat,$cats_inner_common, $common_count, $result);
-            } elseif ($check_category == 0 && $common_count <= 30 && $main_cat != $result['top_cat'] && !is_null($result['top_cat'])) {// Если не хватило и это не родительская рубрика
+                $result = $this->addInnerCheck($main_cat, $cats_inner_common, $common_count, $result);
+            } elseif ($check_category === 0 && $common_count <= 30 && $main_cat != $result['top_cat'] && !is_null($result['top_cat'])) {// Если не хватило и это не родительская рубрика
                 $cats = get_categories('parent=' . $result['top_cat']); // получаем внутренние категории
                 $result = $this->addInnerCheck($result['top_cat'], $cats, $common_count, $result);
             }
@@ -305,17 +260,79 @@ class Link
         return $result;
     }
 
-    public function createSisterCat(int $cat_id) : array
+    /**
+     * Получает список для тематической линковки
+     * урл вида сайт/wp-json/wp/v2/get_thematic_link/1 - где цифра ID рубрики
+     * @param \WP_REST_Request $request
+     * @return ApiAnswer
+     */
+    public function getThematicLinkGk(\WP_REST_Request $request)
+    {
+        $cat_id = $request->get_param('id');
+        $result = $this->createArrayPostThematic($cat_id, null, true);
+        return new ApiAnswer([
+            'response' => $result,
+            'messages' => [
+                new RestMessage([
+                    'type' => RestMessage::TYPE_SUCCESS,
+                    'message' => 'Получено',
+                ]),
+            ],
+            'status' => ApiAnswer::STATUS_SUCCESS,
+        ]);
+    }
+
+    /**
+     * Получает структуру сайта (родительские рубрики)
+     * урл вида сайт/wp-json/wp/v2/get_main_cat
+     * @param \WP_REST_Request $request
+     * @return ApiAnswer
+     */
+    public function getMainCat(\WP_REST_Request $request)
+    {
+        $category_main = $this->createArrayMainCat();
+        return new ApiAnswer([
+            'response' => $category_main,
+            'messages' => [
+                new RestMessage([
+                    'type' => RestMessage::TYPE_SUCCESS,
+                    'message' => 'Родительские категории получены',
+                ]),
+            ],
+            'status' => ApiAnswer::STATUS_SUCCESS,
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function createArrayMainCat()
+    {
+        $categorys = get_categories('parent=0');
+        $cat_data = [];
+        foreach ($categorys as $cat) {
+            $cat = ['term_id' => $cat->term_id, 'name' => $cat->name, 'link' => get_category_link($cat->term_id)];
+            $cat_data[] = $cat;
+        }
+        return $cat_data;
+    }
+
+    /**
+     * @param int $cat_id
+     * @return array
+     */
+    public function createSisterCat(int $cat_id): array
     {
         $sisters_cats = get_categories('parent=' . $cat_id);
         $cat_data = [];
         foreach ($sisters_cats as $cat) {
             $cat = ['term_id' => $cat->term_id, 'name' => $cat->name, 'link' => get_category_link($cat->term_id)];
-            array_push($cat_data, $cat);
+            $cat_data[] = $cat;
         }
         return $cat_data;
     }
 }
+
 /**
  * add custom function to rest_api_init action
  */

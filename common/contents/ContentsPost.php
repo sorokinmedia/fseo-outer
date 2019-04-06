@@ -4,12 +4,18 @@ namespace FseoOuter\common\contents;
 
 use FseoOuter\common\Mobile_Detect;
 
+/**
+ * Class ContentsPost
+ * @package FseoOuter\common\contents
+ */
 class ContentsPost
 {
     // defaults options
     static $main_content;
+
     protected static $inst;
-    public $opt = array(
+
+    public $opt = [
         // Отступ слева у подразделов в px.
         'margin' => 10,
         // Теги по умолчанию по котором будет строиться содержание. Порядок имеет значение.
@@ -29,11 +35,14 @@ class ContentsPost
         'page_url' => '',
         // Название шоткода
         'shortcode' => 'contents',
-    ); // collect html contents
-public $contents;
+    ];
+
+    // collect html contents
+    public $contents;
+
     private $temp;
 
-    public function __construct($args = array())
+    public function __construct($args = [])
     {
         $this->set_opt($args);
         return $this;
@@ -41,7 +50,7 @@ public $contents;
 
     ## статический экземпляр
 
-    public function set_opt($args = array())
+    public function set_opt($args = [])
     {
         $this->opt = (object)array_merge($this->opt, $args);
     }
@@ -62,7 +71,6 @@ public $contents;
     public static function init($args = array())
     {
         self::$inst === null && self::$inst = new self($args);
-        //if( $args ) self::$inst->set_opt( $args );
         return self::$inst;
     }
 
@@ -73,13 +81,13 @@ public $contents;
      */
     public function shortcode($content)
     {
-        if (false === strpos($content, '[' . $this->opt->shortcode))
+        if (false === strpos($content, '[' . $this->opt->shortcode)) {
             return $content;
-
+        }
         // получаем данные о содержании
-        if (!preg_match('~^(.*)\[' . $this->opt->shortcode . '([^\]]*)\](.*)$~s', $content, $m))
+        if (!preg_match('~^(.*)\[' . $this->opt->shortcode . '([^\]]*)\](.*)$~s', $content, $m)) {
             return $content;
-
+        }
         $contents = $this->make_contents($m[3], $m[2]);
         return $m[1] . $contents . $m[3];
     }
@@ -197,9 +205,7 @@ public $contents;
             $link .= $val;
             $level[] = $val;
         }
-
         $this->temp->tag_level = array_flip($level);
-
         // заменяем все заголовки и собираем содержание в $this->contents
         $patt_in = array();
         $patt_suffix = '>(.*?)</(?:\\1)>';
@@ -209,9 +215,7 @@ public $contents;
         if ($tag_patt) {
             $patt_in[] = '(?:<(' . $tag_patt . ')([^>]*)' . $patt_suffix . ')';
         }
-        //var_dump($patt_in);
         $patt_in = implode('|', $patt_in);
-
         if (count($patt_in) > 1) {
             return __CLASS__ . ': don`t use tags and attributes selectors in the same time - use separately';
         }
@@ -219,33 +223,28 @@ public $contents;
         return $_content;
     }
 
-    ## вырезает шоткод из контента
 
     public function is_user_role($role, $user_id = null)
     {
         $user = is_numeric($user_id) ? get_userdata($user_id) : wp_get_current_user();
 
-        if (!$user){
+        if (!$user) {
             return false;
         }
         return in_array($role, (array)$user->roles);
     }
 
-    ## callback функция для замены и сбора содержания
-
+    // вырезает шоткод из контента
     public function strip_shortcode($text)
     {
         return preg_replace('~\[' . $this->opt->shortcode . '[^\]]*\]~', '', $text);
     }
 
-    ## транслитерация для УРЛ
-
+    // callback функция для замены и сбора содержания
     private function __make_contents_callback($match)
     {
-        //echo '<pre>'; print_r($match); echo '</pre>';
         $tag = $match[1];
         $attrs = $match[2];
-
         if (count($match) === 4) {
             $level_tag = $match[1];
             $title = $match[3];
@@ -255,11 +254,10 @@ public $contents;
         } else {
             return 'parse error of preg_replace_callback() in ' . __CLASS__ . ' class';
         }
-
         $anchor = $this->__sanitaze_anchor($title);
         //die( print_r( $match ) );
         $level = @ $this->temp->tag_level[$level_tag];
-        if ($level > 0){
+        if ($level > 0) {
             $sub = ' class="sub sub_' . $level . '"';
         } else {
             $sub = ' class="top"';
@@ -273,10 +271,10 @@ public $contents;
         // заменяем
         $out = '';
         $out .= '<a class="kc-anchor" name="' . $anchor . '"></a>' . "\n" . '<' . $tag . $attrs . '>' . $title . '</' . $tag . '>';
-
         return $out;
     }
 
+    // транслитерация для УРЛ
     private function __sanitaze_anchor($str)
     {
         $detect = new Mobile_Detect();
@@ -303,7 +301,6 @@ public $contents;
             $utm = '?utm_source=table_of_content';
         }
         $str .= $utm;
-
         return $str;
     }
 }

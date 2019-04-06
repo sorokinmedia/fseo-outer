@@ -1,4 +1,5 @@
 <?php
+
 namespace FseoOuter\api;
 
 use FseoOuter\common\setting\AddPlugin;
@@ -24,7 +25,7 @@ class PluginUpdate
             'methods' => 'POST',
             'callback' => [$this, 'pluginUpdate'],
             'permission_callback' => function () {
-                return current_user_can( 'manage_options' );
+                return current_user_can('manage_options');
             },
         ]);
     }
@@ -44,11 +45,11 @@ class PluginUpdate
             AddPlugin::activatePlugin($params['path']);
         }
         return new ApiAnswer([
-            'response' =>  null,
+            'response' => null,
             'messages' => [
                 new RestMessage([
                     'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Получено',
+                    'message' => 'Получено',
                 ]),
             ],
             'status' => ApiAnswer::STATUS_SUCCESS,

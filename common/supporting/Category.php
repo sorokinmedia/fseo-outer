@@ -1,4 +1,5 @@
 <?php
+
 namespace FseoOuter\common\supporting;
 
 /**
@@ -7,7 +8,6 @@ namespace FseoOuter\common\supporting;
  */
 class Category
 {
-
     /**
      * Возвращает ID основной категории
      * @return int|mixed

@@ -1,4 +1,5 @@
 <?php
+
 namespace FseoOuter\api;
 
 use FseoOuter\api\models\ApiAnswer;
@@ -25,8 +26,8 @@ class Category
             'callback' => [$this, 'getCategory'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
@@ -46,7 +47,7 @@ class Category
         $top_description = stripcslashes(get_term_meta($cat_id, 'cat_top_description', true));
         $category->text = $top_description;
         $category->status = 'draft';
-        if (trim($category->text) != ''){
+        if (trim($category->text) !== '') {
             $category->status = 'publish';
         }
         $category->link = get_category_link($cat_id);
@@ -65,7 +66,7 @@ class Category
             'messages' => [
                 new RestMessage([
                     'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Данные получены',
+                    'message' => 'Данные получены',
                 ]),
             ],
             'status' => ApiAnswer::STATUS_SUCCESS,
@@ -76,6 +77,6 @@ class Category
 /**
  * добавляем endpoint к API
  */
-add_action('rest_api_init', function() {
+add_action('rest_api_init', function () {
     $category = new Category();
 });

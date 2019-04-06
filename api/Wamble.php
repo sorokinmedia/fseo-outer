@@ -1,4 +1,5 @@
 <?php
+
 namespace FseoOuter\api;
 
 /**
@@ -24,7 +25,7 @@ class Wamble
             'callback' => [$this, 'wamblePostsCount'],
             'args' => [],
             'permission_callback' => function () {
-                return current_user_can( 'manage_options' );
+                return current_user_can('manage_options');
             }
         ]);
         $base2 = 'wamble_posts';
@@ -33,7 +34,7 @@ class Wamble
             'callback' => [$this, 'wamblePosts'],
             'args' => [],
             'permission_callback' => function () {
-                return current_user_can( 'manage_options' );
+                return current_user_can('manage_options');
             }
         ]);
     }
@@ -76,7 +77,9 @@ class Wamble
                 self::DATE_FINISH
             )
         );
-        $posts = array_map(function($value) { return (int)$value; }, $posts); // конверт строк в integer
+        $posts = array_map(function ($value) {
+            return (int)$value;
+        }, $posts); // конверт строк в integer
         return new \WP_REST_Response($posts, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 }

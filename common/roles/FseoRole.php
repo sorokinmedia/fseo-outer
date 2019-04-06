@@ -1,6 +1,10 @@
 <?php
 namespace FseoOuter\common\roles;
 
+/**
+ * Class FseoRole
+ * @package FseoOuter\common\roles
+ */
 class FseoRole
 {
     public $name; // название роли
@@ -13,7 +17,8 @@ class FseoRole
      * @param $display_name
      * @param $capabilities
      */
-    public function __construct($name, $display_name, $capabilities){
+    public function __construct($name, $display_name, $capabilities)
+    {
         $this->name = $name;
         $this->display_name = $display_name;
         $this->capabilities = $capabilities;

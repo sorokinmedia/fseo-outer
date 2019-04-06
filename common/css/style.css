@@ -6,13 +6,6 @@
     display: none;
 }
 /* social sidebar widget */
-#social_buttons{
-    text-align: center;
-}
-#social_buttons a{
-    display: inline-block;
-    margin: 2px;
-}
 .ya_share{
     clear: both;
     margin: 20px 0;

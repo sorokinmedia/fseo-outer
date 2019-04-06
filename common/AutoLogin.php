@@ -1,14 +1,20 @@
 <?php
+
 namespace FseoOuter\common;
 
 use FseoOuter\common\setting\AddUser;
+
 /**
  * Class AutoLogin
  * @package FseoOuter\common
  */
 class AutoLogin
 {
-    public static function autoLogin() {
+    /**
+     * функция автологина для фабричных пользователей
+     */
+    public static function autoLogin()
+    {
         if (isset($_GET['user'])) {
             $username = base64_decode($_GET['user']);
             $array = explode(':', $username);
@@ -20,7 +26,7 @@ class AutoLogin
             if (in_array($array[0], $erp_users)) {
                 if (wp_check_password($array[1], $pass[0]['password'])) {
                     if (!is_wp_error($user)) {
-                        if ($user_old->user_login != $username) {
+                        if ($user_old->user_login !== $username) {
                             wp_clear_auth_cookie();
                             wp_set_current_user($user->ID);
                             wp_set_auth_cookie($user->ID);
@@ -32,5 +38,4 @@ class AutoLogin
             }
         }
     }
-
 }

@@ -1,6 +1,11 @@
 <?php
+
 namespace FseoOuter\api\models;
 
+/**
+ * Class RestMessage
+ * @package FseoOuter\api\models
+ */
 class RestMessage
 {
     const TYPE_SUCCESS = 0;
@@ -11,8 +16,12 @@ class RestMessage
 
     public $type;
     public $message;
-    public $targetField = null;
+    public $targetField;
 
+    /**
+     * RestMessage constructor.
+     * @param array $params
+     */
     public function __construct(array $params)
     {
         $this->type = $params['type'];

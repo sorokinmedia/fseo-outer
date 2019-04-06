@@ -1,4 +1,5 @@
 <?php
+
 namespace FseoOuter\api;
 
 /**
@@ -20,7 +21,7 @@ class Term
             'methods' => 'GET',
             'callback' => [$this, 'getAllTerms'],
             'permission_callback' => function () {
-                return current_user_can( 'manage_options' );
+                return current_user_can('manage_options');
             },
         ]);
         $cluster_delete = 'cluster_meta_delete/(?P<id>\d+)';
@@ -29,13 +30,13 @@ class Term
             'callback' => [$this, 'clusterMetaDelete'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
             'permission_callback' => function () {
-                return current_user_can( 'manage_options' );
+                return current_user_can('manage_options');
             },
         ]);
         $space_category = 'space_category/(?P<id>\d+)';
@@ -44,8 +45,8 @@ class Term
             'callback' => [$this, 'getSpaceCategory'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
@@ -56,15 +57,30 @@ class Term
             'callback' => [$this, 'termRoute'],
             'args' => [
                 'id' => [
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_numeric( $param );
+                    'validate_callback' => function ($param, $request, $key) {
+                        return is_numeric($param);
                     }
                 ],
             ],
             'permission_callback' => function () {
-                return current_user_can( 'manage_options' );
+                return current_user_can('manage_options');
             },
         ]);
+    }
+
+    /**
+     * get the final hierarchical array of cats
+     * @param $object
+     * @return \WP_REST_Response
+     */
+    public function getAllTerms($object)
+    {
+        $tops = $this->getTopCats(); // получаем топовые категории
+        $cats = []; // результирующий массив term_id=>name
+        foreach ($tops as $top) {
+            $cats = $cats + $this->getTopChilds($top->term_id); // получаем дочерние топовых категорий
+        }
+        return new \WP_REST_Response($cats, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
@@ -78,6 +94,28 @@ class Term
             'parent' => 0,
             'hide_empty' => false
         ]); // возвращаем массив топовых категорий
+    }
+
+    /**
+     * get childs from very top cats
+     * @param $top_id
+     * @return array
+     */
+    public function getTopChilds($top_id)
+    {
+        $parents = get_terms([
+            'taxonomy' => 'category',
+            'parent' => 0,
+            'include' => [$top_id],
+            'hide_empty' => false
+        ]); // все дочерние топовой категории
+        foreach ($parents as $parent) {
+            $cats[$parent->term_id] = $parent->name; // пишем в массив топовую категорию
+            if ($this->getChildsCount($parent->term_id)) { // если есть дочерние
+                $cats = $cats + $this->getChilds($parent->term_id, '—'); // пишем дочерние, добавляем тире
+            }
+        }
+        return $cats;
     }
 
     /**
@@ -108,50 +146,13 @@ class Term
             'parent' => $parent_id,
             'hide_empty' => false
         ]); // получаем дочерние категории для родителя
-        foreach ($childs as $child){
+        foreach ($childs as $child) {
             $cats[$child->term_id] = $depth . $child->name; // пишем дочернюю категорию с нужным количеством тире
-            if ($this->getChildsCount($child->term_id)){ // если есть дочерние уровнем ниже
+            if ($this->getChildsCount($child->term_id)) { // если есть дочерние уровнем ниже
                 $cats = $cats + $this->getChilds($child->term_id, $depth . '—'); // рекурсивно пишем и их, но добавляем еще одно тире
             }
         }
         return $cats;
-    }
-
-    /**
-     * get childs from very top cats
-     * @param $top_id
-     * @return array
-     */
-    public function getTopChilds($top_id)
-    {
-        $parents = get_terms([
-            'taxonomy' => 'category',
-            'parent' => 0,
-            'include' => [$top_id],
-            'hide_empty' => false
-        ]); // все дочерние топовой категории
-        foreach ($parents as $parent){
-            $cats[$parent->term_id] = $parent->name; // пишем в массив топовую категорию
-            if ($this->getChildsCount($parent->term_id)){ // если есть дочерние
-                $cats = $cats + $this->getChilds($parent->term_id, '—'); // пишем дочерние, добавляем тире
-            }
-        }
-        return $cats;
-    }
-
-    /**
-     * get the final hierarchical array of cats
-     * @param $object
-     * @return \WP_REST_Response
-     */
-    public function getAllTerms($object)
-    {
-        $tops = $this->getTopCats(); // получаем топовые категории
-        $cats = []; // результирующий массив term_id=>name
-        foreach ($tops as $top){
-            $cats = $cats + $this->getTopChilds($top->term_id); // получаем дочерние топовых категорий
-        }
-        return new \WP_REST_Response($cats, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
     /**
@@ -163,12 +164,12 @@ class Term
     {
         $id = $request->get_param('id');
         $term = get_term($id, 'category');
-        update_term_meta( $term->term_id, 'cat_title', '');
-        update_term_meta( $term->term_id, 'cat_top_description', '');
-        update_term_meta( $term->term_id, 'seo_title', '');
-        update_term_meta( $term->term_id, 'seo_description', '');
-        update_term_meta( $term->term_id, 'seo_keywords', '');
-        update_term_meta( $term->term_id, 'cat_template', '');
+        update_term_meta($term->term_id, 'cat_title', '');
+        update_term_meta($term->term_id, 'cat_top_description', '');
+        update_term_meta($term->term_id, 'seo_title', '');
+        update_term_meta($term->term_id, 'seo_description', '');
+        update_term_meta($term->term_id, 'seo_keywords', '');
+        update_term_meta($term->term_id, 'cat_template', '');
         return new \WP_REST_Response($term, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
 
@@ -181,14 +182,14 @@ class Term
     {
         $id = $request->get_param('id');
         $category = get_category($id);
-        $posts = new \WP_Query( array(
+        $posts = new \WP_Query(array(
             'post_type' => 'post',
             'post_status' => 'publish',
             'category__in' => $category->term_id
-        ) );
+        ));
         $link = get_term_link($category->term_id, 'category');
         $count = $posts->found_posts;
-        $category->count = (int) $count;
+        $category->count = (int)$count;
         $category->link = $link;
         return new \WP_REST_Response($category, 200); // возвращаем ответ с кодом 200 и массивом категорий
     }
@@ -203,7 +204,7 @@ class Term
         $id = $request->get_param('id');
         $term = get_term($id, 'category');
         $route = $term->name;
-        if ($term->parent != 0){
+        if ($term->parent !== 0) {
             $route = $this->addParentTerm($term->parent, $route) . ' - ' . $route;
         }
         return new \WP_REST_Response($route, 200); // возвращаем ответ с кодом 200 и массивом категорий
@@ -219,8 +220,8 @@ class Term
     {
         $parent = get_term($parent_id, 'category');
         $route = $parent->name;
-        if ($parent->parent != 0){
-            $route = $this->addParentTerm($parent->parent,$route) . ' - ' . $route;
+        if ($parent->parent != 0) {
+            $route = $this->addParentTerm($parent->parent, $route) . ' - ' . $route;
         }
         return $route;
     }

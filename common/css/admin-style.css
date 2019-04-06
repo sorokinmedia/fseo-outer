@@ -1,50 +1,4 @@
-/* f-seo-marketing */
-.input_section{
-    border:1px solid #ddd;
-    border-bottom:0;
-    background:#f9f9f9;
-    border-radius: 3px 3px 3px 3px;
-    margin-bottom:20px;
-}
-.option_input label{
-    font-size:14px;
-    font-weight:700;
-    width:20%;
-    display:block;
-}
-.option_input {
-    padding:30px 10px;
-    border-bottom:1px solid #ddd;
-    border-top:1px solid #fff;
-    overflow: hidden;
-}
-.option_input input[type="text"], .option_input select{
-    width:20%;
-    font-size:14px;
-    padding:4px;
-    color:#333;
-    line-height:1em;
-    background:#f3f3f3;
-}
-.option_input input:focus, .option_input textarea:focus{
-    background:#fff;
-}
-.option_input textarea{
-    width:20%;
-    height:175px;
-    font-size:14px;
-    padding:4px;
-    color:#333;
-    line-height:1.5em;
-    background:#f3f3f3;
-}
-.option_input textarea[readonly]{
-    opacity: 0.5;
-    cursor: default;
-}
-.option_input .option_third textarea{
-    width:100%;
-}
+/* f-seo-outer */
 .input_title h3 {
     color: #464646;
     cursor: pointer;
@@ -53,7 +7,6 @@
     margin: 0;
     padding: 5px 0 0;
     text-shadow: 0 1px 0 #FFFFFF;
-    cursor:pointer;
 }
 .input_title{
     border-bottom:1px solid #ddd;
@@ -74,85 +27,8 @@
     margin: 0 20px;
     padding: 0;
 }
-.option_half{
-    width:45%;
-    margin: 0 2.5%;
-    float:left;
-}
-.option_third{
-    width:30%;
-    margin: 0 1.5%;
-    float:left;
-}
-.option_half label{
-    float:none;
-    width:100%;
-    margin-bottom: 10px;
-}
-.option_half textarea{
-    width:100%;
-}
-.option_half select{
-    width:50%;
-    float:none;
-    clear: both;
-    margin-bottom: 10px;
-}
-.option_half h4{
-    float:left;
-    margin: 7px 10px 7px 0;
-}
-.option_full{
-    width:97%;
-    margin:10px 1.5%;
-    clear: both;
-}
-.option_full label{
-    float:left;
-}
-.option_check label{
-    display: inline-block;
-    float:none;
-}
-.option_radio input{
-
-}
-small{
-    font-weight: normal;
-}
-.option_divider{
-    clear: both;
-    margin:10px 0 0;
-    height: 1px;
-}
-.rek_tests{
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-.rek_tests label{
-    float:left;
-    width: 30%;
-}
-.rek_tests .rek_block_delete{
-    float:right;
-    margin-bottom: 5px;
-}
-#fseo_likes{
-    width: 4em;
-}
-#fseo_tt{
-    width: 14em;
-}
-
-sup.delta{
-    margin-left:15px;
-    color:green;
-}
-.sort_div{
-    margin-bottom: 10px;
-}
 .wp-upload-csv .wp-upload-form{
-    margin: 0px 0 20px 0;
+    margin: 0 0 20px;
 }
 .form-table small{
     display: block;
@@ -163,14 +39,12 @@ sup.delta{
 .ui-widget-overlay {
     background: #aaaaaa;
     opacity: .3;
-    filter: Alpha(Opacity=30); /* support: IE8 */
 }
 .ui-widget-shadow {
     margin: -8px 0 0 -8px;
     padding: 8px;
     background: #aaaaaa;
     opacity: .3;
-    filter: Alpha(Opacity=30); /* support: IE8 */
     border-radius: 8px;
 }
 .st_wrap{

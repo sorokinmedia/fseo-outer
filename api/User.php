@@ -1,5 +1,7 @@
 <?php
+
 namespace FseoOuter\api;
+
 use FseoOuter\common\setting\AddUser;
 use FseoOuter\api\models\RestMessage;
 use FseoOuter\api\models\ApiAnswer;
@@ -23,7 +25,7 @@ class User
             'methods' => 'POST',
             'callback' => [$this, 'resetPassword'],
             'permission_callback' => function () {
-                return current_user_can( 'manage_options' );
+                return current_user_can('manage_options');
             },
         ]);
     }
@@ -36,37 +38,37 @@ class User
     public function resetPassword(\WP_REST_Request $request)
     {
         $data = [];
-        if ($user = AddUser::checkUserExist('fabrica')){
+        if ($user = AddUser::checkUserExist('fabrica')) {
             $fabrica = $user->ID;
             $fabrica_password = AddUser::createNewApplicationPassword($fabrica, 'fabrica');
-            array_push($data, ['fabrica' => base64_encode($fabrica_password)]);
+            $data[] = ['fabrica' => base64_encode($fabrica_password)];
         }
-        if ($user = AddUser::checkUserExist('fabricav21')){
+        if ($user = AddUser::checkUserExist('fabricav21')) {
             $fabrica21 = $user->ID;
             $fabrica21_password = AddUser::createNewApplicationPassword($fabrica21, 'fabrica21');
-            array_push($data, ['fabrica21' => base64_encode($fabrica21_password)]);
+            $data[] = ['fabrica21' => base64_encode($fabrica21_password)];
         }
-        if ($user = AddUser::checkUserExist('fabricav22')){
+        if ($user = AddUser::checkUserExist('fabricav22')) {
             $fabrica22 = $user->ID;
             $fabrica22_password = AddUser::createNewApplicationPassword($fabrica22, 'fabrica22');
-            array_push($data, ['fabrica22' => base64_encode($fabrica22_password)]);
+            $data[] = ['fabrica22' => base64_encode($fabrica22_password)];
         }
-        if ($user = AddUser::checkUserExist('fabricav23')){
+        if ($user = AddUser::checkUserExist('fabricav23')) {
             $fabrica23 = $user->ID;
             $fabrica23_password = AddUser::createNewApplicationPassword($fabrica23, 'fabrica23');
-            array_push($data, ['fabrica23' => base64_encode($fabrica23_password)]);
+            $data[] = ['fabrica23' => base64_encode($fabrica23_password)];
         }
-        if ($user = AddUser::checkUserExist('fabrica_wamble')){
+        if ($user = AddUser::checkUserExist('fabrica_wamble')) {
             $fabrica_wamble = $user->ID;
             $fabrica_wamble_password = AddUser::createNewApplicationPassword($fabrica_wamble, 'fabrica_wamble');
-            array_push($data, ['fabrica_wamble' => base64_encode($fabrica_wamble_password)]);
+            $data[] = ['fabrica_wamble' => base64_encode($fabrica_wamble_password)];
         }
         return new ApiAnswer([
-            'response' =>  $data,
+            'response' => $data,
             'messages' => [
                 new RestMessage([
                     'type' => RestMessage::TYPE_SUCCESS,
-                    'message' =>'Получено',
+                    'message' => 'Получено',
                 ]),
             ],
             'status' => ApiAnswer::STATUS_SUCCESS,
