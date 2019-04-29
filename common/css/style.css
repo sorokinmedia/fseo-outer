@@ -305,22 +305,6 @@
     overflow: hidden;
     margin-bottom: 25px;
 }
-.cat_page_nav_links{
-    margin-top:10px;
-}
-.cat_page_nav_links a.strong{
-    font-weight: bold;
-}
-.cat_page_nav_childs ul{
-    list-style:none;
-    display: inline;
-    padding:0;
-    margin: 0;
-}
-.cat_page_nav_childs ul li{
-    display: inline;
-    margin-right: 10px;
-}
 @media (max-width: 767px) {
     ul .img_rounded, ol .img_rounded{
         display: none;
