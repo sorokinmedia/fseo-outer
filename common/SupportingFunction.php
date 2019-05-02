@@ -32,7 +32,9 @@ class SupportingFunction
         if (($social_post === 1 && !is_category()) || ($social_cat === 1 && is_category())) {
             $soc_btns = '<div class="ya_share">'
                 . '<div class="ya-share2" data-services="' . $soc_btns_service . '" ' . $soc_btns_counters . '></div>'
-                . '</div>';
+                . '<div class="fseo_to_top"><a href="#" title="Наверх">Наверх <i class="fa fa-level-up" aria-hidden="true"></i></a></div>'
+                . '</div>'
+                . '<div class="ya_share_after"></div>';
         }
         $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
         if (is_category()) {
