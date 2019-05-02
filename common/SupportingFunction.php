@@ -19,9 +19,19 @@ class SupportingFunction
         $social_post = (int)get_option('fseo_outer_social', true);
         $social_cat = (int)get_option('fseo_cat_social', true);
         $soc_btns = '';
+        // список сервисов
+        $soc_btns_service = 'vkontakte,facebook,odnoklassniki,moimir,twitter,viber,whatsapp,skype,telegram';
+        if (get_option('social_btns') !== ''){
+            $soc_btns_service = get_option('social_btns');
+        }
+        // показывать или нет счетчики
+        $soc_btns_counters = 'data-counter=""';
+        if (get_option('social_btns_counter') !== '1'){
+            $soc_btns_counters = '';
+        }
         if (($social_post === 1 && !is_category()) || ($social_cat === 1 && is_category())) {
             $soc_btns = '<div class="ya_share">'
-                . '<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,twitter,viber,whatsapp,skype,telegram" data-counter=""></div>'
+                . '<div class="ya-share2" data-services="' . $soc_btns_service . '" ' . $soc_btns_counters . '></div>'
                 . '</div>';
         }
         $content = preg_replace('#<span.*?id="more-(.*?)".*?></span>#', '<div class="mih"></div>' . '<span id="more-\1"></span></p>' . $soc_btns, $content);
