@@ -303,7 +303,6 @@
 .cat_page_nav{
     clear: both;
     overflow: hidden;
-    margin-bottom: 25px;
 }
 @media (max-width: 767px) {
     ul .img_rounded, ol .img_rounded{
