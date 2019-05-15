@@ -341,3 +341,10 @@
     cursor: pointer;
     overflow: hidden;
 }
+/* содержание */
+.kc_contents_hidden {
+    display: none;
+}
+.contents_title {
+    cursor: pointer;
+}

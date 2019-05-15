@@ -37,4 +37,9 @@ jQuery(document).ready(function () {
             });
         });
     }, 100);
+    jQuery('.contents_title').click(function (){
+        var text = jQuery('.contents_title');
+        jQuery(this).next('ul.contents').slideToggle('fast')
+        text.text(text.text() === "Показать содержание" ? "Скрыть содержание" : "Показать содержание");
+    });
 });

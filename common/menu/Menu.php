@@ -47,6 +47,7 @@ class Menu
         );
         register_setting('fseo-outer-settings-group', 'fseo_outer_social');
         register_setting('fseo-outer-settings-group', 'fseo_outer_contents');
+        register_setting('fseo-outer-settings-group', 'hidden_content');
     }
 
     /**

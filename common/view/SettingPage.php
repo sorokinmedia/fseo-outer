@@ -32,6 +32,10 @@ class SettingPage
                         <th scope="row"><label for="fseo_outer_contents">Показывать содержание?</label></th>
                         <td><input type="checkbox" name="fseo_outer_contents" value="1" <?php checked('1', get_option('fseo_outer_contents')); ?> /></td>
                     </tr>
+                    <tr>
+                        <th scope="row"><label for="hidden_content">Свернуть содержание в спойлер?</label></th>
+                        <td><input type="checkbox" name="hidden_content" value="1" <?php checked('1', get_option('hidden_content')); ?> /></td>
+                    </tr>
                 </table>
                 <p class="submit">
                     <input type="submit" class="button-primary" value="Сохранить"/>

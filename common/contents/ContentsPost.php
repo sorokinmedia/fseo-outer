@@ -107,14 +107,15 @@ class ContentsPost
         $content = $_content; // опять работаем с важной $content
         // html содержания
         $contents = '';
+        $hidden = (int)get_option('hidden_content');
         $lang = get_bloginfo('language');
         if ($lang === 'en-US') {
             $contents_title = 'Contents';
         } else {
-            $contents_title = $this->opt->title;
+            $contents_title = ($hidden === 1 ? "Показать содержание" : "Скрыть содержание");
         }
         $contents .= '<blockquote class="contents" id="kcmenu"><div class="contents_title">' . $contents_title . '</div>' . "\n";
-        $contents .= '<ul class="contents"' . (!$this->opt->title ? ' id="kcmenu"' : '') . '><div class="right_contents">' . "\n" .
+        $contents .= '<ul class="contents '. ($hidden === 1 ? "kc_contents_hidden" : "") . '" ' . (!$this->opt->title ? ' id="kcmenu"' : '') . '><div class="right_contents">' . "\n" .
             implode('', $this->contents) .
             '</ul></blockquote>' . "\n";
 

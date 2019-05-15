@@ -105,7 +105,7 @@ class SupportingScriptOuter
     {
         wp_register_script('ya_static_share', '//yastatic.net/share2/share.js', [], FSEO_OUTER_VER);
         wp_enqueue_script('ya_static_share');
-        wp_register_script('common_scripts', plugins_url('/common/js/script-front.js', __FILE__), ['jquery-core'], FSEO_OUTER_VER, true);
+        wp_register_script('common_scripts', plugins_url('/common/js/script-front.js', __FILE__), [], FSEO_OUTER_VER, true);
         wp_enqueue_script('common_scripts');
     }
 }
