@@ -148,10 +148,10 @@ function agregateCounters(redactor) {
     var divs_warring = text.match(/<div class=\"warning\">/g)
     var divs_advice = text.match(/<div class=\"advice\">/g)
     var divs_stop = text.match(/<div class=\"stop\">/g)
-    var divs_zakon = text.match(/<div class=\"zakon\"><!--noindex-->(.*?)<!--\/noindex--><\/div>/g)
+    var divs_zakon = text.match(/<div class=\"zakon\"><!--noindex-->/g)
     var thmb = jQuery('#postimagediv').find('img')
     var links = text.match(/href=\"([^\"]+)/g)
-
+    //console.log(divs_zakon);
 
     var outLinkCounter = 0;
     var docsCounter = 0;
