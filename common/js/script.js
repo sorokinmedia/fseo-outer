@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
             renderArticleStata()
             jQuery('#content').focusout(function () {
                 sendGET(
-                    'https://api.workhard.online/v1/common/task/prices?'
+                    'https://api.workhard.online/v2/common/task/prices?'
                     + 'wp_post_id=' + googleImagesPostId
                     + '&site_name=' + jQuery(location).attr('host')
                 )
@@ -196,7 +196,7 @@ function renderArticleStata() {
         document.getElementById('submitdiv')
     );
     sendGET(
-        'https://api.workhard.online/v1/common/task/prices?'
+        'https://api.workhard.online/v2/common/task/prices?'
         + 'wp_post_id=' + googleImagesPostId
         + '&site_name=' + jQuery(location).attr('host')
     )
@@ -275,7 +275,7 @@ function sendGET(call) {
 function refresh_rb_handle(e) {
     e.preventDefault()
     sendGET(
-        'https://api.workhard.online/v1/common/task/prices?'
+        'https://api.workhard.online/v2/common/task/prices?'
         + 'wp_post_id=' + googleImagesPostId
         + '&site_name=' + jQuery(location).attr('host')
     )

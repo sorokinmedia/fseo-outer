@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: F-seo Outer
-Version: 1.5
+Version: 1.6
 Plugin URI: http://f-seo.ru
 Author: F-Seo
 Author URI: http://f-seo.ru
@@ -11,7 +11,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-const FSEO_OUTER_VER = '1.5';
+const FSEO_OUTER_VER = '1.6';
 
 // Include the autoloader so we can dynamically include the rest of the classes.
 require_once(trailingslashit(dirname(__FILE__)) . 'inc/autoloader.php');
