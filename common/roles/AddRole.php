@@ -13,34 +13,34 @@ class AddRole
      */
     public static function addRoleLink()
     {
-        new FseoRole('publishv21', 'publishv21', array(
+        new FseoRole('publishv21', 'publishv21', [
             'read' => true, // просмотр записей
             'edit_posts' => true, // редактирование своих записей
             'edit_others_posts' => true, // редактирование других записей
             'create_posts' => true, // создание новых записей
             'manage_categories' => false, // редактирование категорий
             'upload_files' => true, // загрузка файлов
-        ));
+        ]);
 
-        new FseoRole('publishv22', 'publishv22', array(
+        new FseoRole('publishv22', 'publishv22', [
             'read' => true, // просмотр записей
             'edit_posts' => true, // редактирование своих записей
             'edit_others_posts' => true, // редактирование других записей
             'create_posts' => true, // создание новых записей
             'manage_categories' => true, // редактирование категорий
             'upload_files' => true, // загрузка файлов
-        ));
+        ]);
 
-        new FseoRole('publishv23', 'publishv23', array(
+        new FseoRole('publishv23', 'publishv23', [
             'read' => true, // просмотр записей
             'edit_posts' => true, // редактирование своих записей
             'edit_others_posts' => true, // редактирование других записей
             'create_posts' => true, // создание новых записей
             'manage_categories' => true, // редактирование категорий
             'upload_files' => true, // загрузка файлов
-        ));
+        ]);
 
-        new FseoRole('wambleChecker', 'wambleChecker', array(
+        new FseoRole('wambleChecker', 'wambleChecker', [
             'read' => true, // просмотр записей
             'edit_posts' => true, // редактирование своих записей
             'edit_others_posts' => true, // редактирование других записей
@@ -48,7 +48,7 @@ class AddRole
             'create_posts' => false, // создание новых записей
             'manage_categories' => false, // редактирование категорий
             'upload_files' => true, // загрузка файлов
-        ));
+        ]);
     }
 
     /**
@@ -69,6 +69,8 @@ class AddRole
         if (self::checkUserRole('publishv23')) { // роль publishv23
             add_action('admin_menu', [__CLASS__, 'publishv12Metaboxes']);
             add_filter('get_sample_permalink_html', [__CLASS__, 'removeEditSlag']); // редактирование слага
+            add_action('add_meta_boxes', [__CLASS__, 'add_recent_thumb_meta_box']); // последние миниатюры
+            add_action('edit_form_after_title', [__CLASS__, 'move_advanced_after_title']); // передвинем под титл
         }
         if (self::checkUserRole('publishv21') ||
             self::checkUserRole('publishv22') ||
@@ -77,7 +79,7 @@ class AddRole
             update_user_meta(wp_get_current_user()->ID, 'rich_editing', 'false');
         }
         $user = wp_get_current_user();
-        if ($user->ID != 0) {
+        if ($user->ID !== 0) {
             add_action('init', [__CLASS__, 'metaBoxInit']);
         }
     }
@@ -94,11 +96,11 @@ class AddRole
             $user = get_userdata($user_id);
         } else {
             $user = wp_get_current_user();
-            if ($user->ID == 0) {
+            if ($user->ID === 0) {
                 return false;
             }
         }
-        return in_array($role, (array)$user->roles);
+        return in_array($role, (array)$user->roles, true);
     }
 
     /**
@@ -234,6 +236,69 @@ class AddRole
     public static function removeEditSlag()
     {
         return '';
+    }
+
+    /**
+     * метод для вывода метабокса под title (edit-post)
+     */
+    public static function move_advanced_after_title()
+    {
+        // Get the globals:
+        global $post, $wp_meta_boxes;
+        // Output the "advanced" meta boxes:
+        do_meta_boxes(get_current_screen(), 'advanced', $post);
+        // Remove the initial "advanced" meta boxes:
+        unset($wp_meta_boxes['post']['advanced']);
+    }
+
+    /**
+     * подключаем метабокс с выводом последних миниатюр
+     */
+    public static function add_recent_thumb_meta_box()
+    {
+        add_meta_box(
+            'fseo_recent_thumbs',
+            __( 'Последние миниатюры', 'textdomain' ),
+            [__CLASS__, 'recent_thumbs_meta_box_callback'],
+            'post',
+            'advanced',
+            'high'
+        );
+    }
+
+    /**
+     * метод для вывода миниатюр из последних 10 постов
+     * @param $post
+     */
+    public static function recent_thumbs_meta_box_callback( $post )
+    {
+        $categories = [];
+        $cats = get_the_terms($post->ID, 'category');
+        if (!empty($cats)){
+            $categories[] = $cats[0]->term_id;
+            $categories[] = $cats[0]->parent;
+        }
+        if (!empty($categories)) {
+            $posts = get_posts([
+                'numberposts' => 10,
+                'category__in'    => $categories,
+                'orderby'     => 'modified',
+                'order'       => 'DESC',
+                'post_type'   => 'post',
+                'post_status'      => ['draft', 'auto-draft','future','pending','publish'],
+                'suppress_filters' => false,
+            ]);
+            if (!empty($posts)){
+                echo '<div class="fseo_recent_thumbs">';
+                foreach ($posts as $recent_post){
+                    if (has_post_thumbnail($recent_post->ID)){
+                        echo get_the_post_thumbnail($recent_post->ID, 'thumbnail', ['class' => 'alignleft']);
+                    }
+                }
+                echo '</div>';
+                echo '<style>.fseo_recent_thumbs{overflow: hidden;}.fseo_recent_thumbs img{width:80px; height: auto;margin-right: 5px;}</style>';
+            }
+        }
     }
 
     /**
