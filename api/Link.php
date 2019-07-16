@@ -94,7 +94,7 @@ class Link
             'response' => $result,
             'messages' => [
                 new RestMessage([
-                    'type' => RestMessage::TYPE_SUCCESS,
+                    'type' => RestMessage::TYPE_LOG,
                     'message' => 'Посты и внутренние категории получены',
                 ]),
             ],
@@ -150,7 +150,7 @@ class Link
             'response' => $result,
             'messages' => [
                 new RestMessage([
-                    'type' => RestMessage::TYPE_SUCCESS,
+                    'type' => RestMessage::TYPE_LOG,
                     'message' => 'Получено',
                 ]),
             ],
@@ -274,7 +274,7 @@ class Link
             'response' => $result,
             'messages' => [
                 new RestMessage([
-                    'type' => RestMessage::TYPE_SUCCESS,
+                    'type' => RestMessage::TYPE_LOG,
                     'message' => 'Получено',
                 ]),
             ],
@@ -295,7 +295,7 @@ class Link
             'response' => $category_main,
             'messages' => [
                 new RestMessage([
-                    'type' => RestMessage::TYPE_SUCCESS,
+                    'type' => RestMessage::TYPE_LOG,
                     'message' => 'Родительские категории получены',
                 ]),
             ],
