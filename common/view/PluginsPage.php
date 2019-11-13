@@ -17,7 +17,8 @@ class PluginsPage
             <form method="post">
                 <input type="hidden" name="_wp_http_referer" value="/wp-admin/admin.php?page=fseo-outer-plugins"/>
                 <?php
-                if ($_POST['_wp_http_referer'] === '/wp-admin/admin.php?page=fseo-outer-plugins'
+                if (isset($_POST['_wp_http_referer'])
+                    && $_POST['_wp_http_referer'] === '/wp-admin/admin.php?page=fseo-outer-plugins'
                     && $_POST['submit'] === 'Добавить плагины') {
                     if (!is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_API)) {
                         AddPlugin::installPlugin(AddPlugin::PLUGIN_NAME_WP_REST_API);
@@ -64,7 +65,13 @@ class PluginsPage
                         || !is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_META_ENDPOINTS)
                         || !is_plugin_active(AddPlugin::PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK)
                     ){ ?>
-                        <h3>Установить плагины WP REST API, Application Passwords, WP REST Meta Endpoints</h3>
+                        <h3>
+                            Установить плагины
+                            <a href="https://ru.wordpress.org/plugins/rest-api/">WP REST API</a>,
+                            <a href="https://ru.wordpress.org/plugins/application-passwords/">Application Passwords</a>,
+                            <a href="https://ru.wordpress.org/plugins/rest-api-meta-endpoints/">WP REST Meta Endpoints</a>,
+                            <a href="https://ru.wordpress.org/plugins/post-editor-buttons-fork/">Post Editor Buttons Fork</a>
+                        </h3>
                         <input type="submit" class="button-primary" value="Добавить плагины" name="submit" />
                     <?php } ?>
                 </p>
@@ -75,7 +82,8 @@ class PluginsPage
             <form method="post">
                 <input type="hidden" name="_wp_http_referer" value="/wp-admin/admin.php?page=fseo-outer-plugins"/>
                 <?php
-                if ($_POST['_wp_http_referer'] === '/wp-admin/admin.php?page=fseo-outer-plugins'
+                if (isset($_POST['_wp_http_referer'])
+                    && $_POST['_wp_http_referer'] === '/wp-admin/admin.php?page=fseo-outer-plugins'
                     && $_POST['submit'] === 'Добавить') {
                     global $wpdb;
                     $peb_caption = json_encode('a:25:{i:0;s:2:"h2";i:1;s:2:"h3";i:2;s:2:"h4";i:3;s:6:"advice";i:4;s:4:"stop";i:5;s:7:"warning";i:6;s:7:"colored";i:7;s:7:"br-nbsp";i:8;s:5:"zakon";i:9;s:3:"big";i:10;s:10:"name_zakon";i:11;s:10:"video-size";i:12;s:15:"block_questions";i:13;s:8:"nofollow";i:14;s:2:"d1";i:15;s:2:"d2";i:16;s:2:"d3";i:17;s:2:"d4";i:18;s:4:"more";i:19;s:8:"kovichki";i:20;s:2:"18";i:21;s:5:"video";i:22;s:8:"round100";i:23;s:8:"round150";i:24;s:8:"round200";}');
