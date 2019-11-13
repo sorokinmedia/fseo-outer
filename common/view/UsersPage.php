@@ -20,7 +20,8 @@ class UsersPage
             <form method="post">
                 <input type="hidden" name="_wp_http_referer" value="/wp-admin/admin.php?page=fseo-outer-users" />
                 <?php
-                if ($_POST['_wp_http_referer'] === '/wp-admin/admin.php?page=fseo-outer-users'
+                if (isset($_POST['_wp_http_referer'])
+                    && $_POST['_wp_http_referer'] === '/wp-admin/admin.php?page=fseo-outer-users'
                     && $_POST['submit'] === 'Добавить пользователей fabrica(5) и пароли'){
                     if (!AddUser::checkUserExist('fabrica')){
                         $fabrica = wp_create_user('fabrica', wp_generate_password(16), 'fabrica.user@gmail.com');
