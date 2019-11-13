@@ -64,7 +64,13 @@ class PluginsPage
                         || !is_plugin_active(AddPlugin::PLUGIN_DIR_WP_REST_META_ENDPOINTS)
                         || !is_plugin_active(AddPlugin::PLUGIN_DIR_POST_EDITOR_BUTTONS_FORK)
                     ){ ?>
-                        <h3>Установить плагины WP REST API, Application Passwords, WP REST Meta Endpoints</h3>
+                        <h3>
+                            Установить плагины
+                            <a href="https://ru.wordpress.org/plugins/rest-api/">WP REST API</a>,
+                            <a href="https://ru.wordpress.org/plugins/application-passwords/">Application Passwords</a>,
+                            <a href="https://ru.wordpress.org/plugins/rest-api-meta-endpoints/">WP REST Meta Endpoints</a>,
+                            <a href="https://ru.wordpress.org/plugins/post-editor-buttons-fork/">Post Editor Buttons Fork</a>
+                        </h3>
                         <input type="submit" class="button-primary" value="Добавить плагины" name="submit" />
                     <?php } ?>
                 </p>
