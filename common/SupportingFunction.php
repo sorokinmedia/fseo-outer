@@ -55,7 +55,7 @@ class SupportingFunction
     /**
      * Парсинг поста - картинки, блоки, видео
      */
-    public function parseArticleText()
+    public static function parseArticleText()
     {
         $articleID = get_the_ID();
         $post = get_post($articleID);
