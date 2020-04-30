@@ -98,7 +98,7 @@ class SupportingFunction
     /**
      * nofollow в диалоге вставки ссылки в админке
      */
-    public function tnlAddNofollow()
+    public static function tnlAddNofollow()
     {
         wp_deregister_script('wplink');
         wp_register_script('wplink', plugins_url('/js/nofollow.min.js', __FILE__), ['jquery'], FSEO_OUTER_VER, true);
