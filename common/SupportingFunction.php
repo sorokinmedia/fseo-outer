@@ -55,11 +55,11 @@ class SupportingFunction
     /**
      * Парсинг поста - картинки, блоки, видео
      */
-    public function parseArticleText()
+    public static function parseArticleText()
     {
         $articleID = get_the_ID();
         $post = get_post($articleID);
-        $text = $post->post_content;
+        $text = $post === null ? '' : $post->post_content;
         preg_match_all('/<img[^>]+>/i', $text, $imgs);
         preg_match_all('/\[\/embed\]/i', $text, $frames);
         preg_match_all('|<div class=\"warning\">(.*?)</div>|is', $text, $divs_warnings);
@@ -98,7 +98,7 @@ class SupportingFunction
     /**
      * nofollow в диалоге вставки ссылки в админке
      */
-    public function tnlAddNofollow()
+    public static function tnlAddNofollow()
     {
         wp_deregister_script('wplink', plugins_url('/js/nofollow.min.js', __FILE__), ['jquery'], FSEO_OUTER_VER, true);
     }
