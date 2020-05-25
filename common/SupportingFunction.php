@@ -100,17 +100,6 @@ class SupportingFunction
      */
     public function tnlAddNofollow()
     {
-        wp_deregister_script('wplink');
-        wp_register_script('wplink', plugins_url('/js/nofollow.min.js', __FILE__), ['jquery'], FSEO_OUTER_VER, true);
-        wp_enqueue_script('wplink');
-        wp_localize_script('wplink', 'wpLinkL10n', [
-            'title' => __('Insert/edit link'),
-            'update' => __('Update'),
-            'save' => __('Add Link'),
-            'noTitle' => __('(no title)'),
-            'labelTitle' => __('Title'),
-            'noMatchesFound' => __('No results found.'),
-            'noFollow' => __(' Добавить <code>rel="nofollow"</code> к ссылке', 'title-and-nofollow-for-links')
-        ]);
+        wp_deregister_script('wplink', plugins_url('/js/nofollow.min.js', __FILE__), ['jquery'], FSEO_OUTER_VER, true);
     }
 }
