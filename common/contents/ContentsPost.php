@@ -147,7 +147,7 @@ class ContentsPost
         $level = array();
         foreach ($tags as $k => $val) {
             // class
-            if ($val{0} === '.') {
+            if ($val[0] === '.') {
                 $val = substr($val, 1);
                 $link = &$class_patt;
             } // html tag
@@ -194,7 +194,7 @@ class ContentsPost
         $level = array();
         foreach ($tags as $k => $val) {
             // class
-            if ($val{0} === '.') {
+            if ($val[0] === '.') {
                 $val = substr($val, 1);
                 $link = &$class_patt;
             } // html tag
