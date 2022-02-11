@@ -170,10 +170,8 @@ class ContentsPost
             $patt_in[] = '(?:<(' . $tag_patt . ')([^>]*)' . $patt_suffix . ')';
         }
         //var_dump($patt_in);
-        $patt_in = implode('|', $patt_in);
-        if (count($patt_in) > 1) {
-            return __CLASS__ . ': don`t use tags and attributes selectors in the same time - use separately';
-        }
+        $patt_in = implode($patt_in);
+
         $_content = preg_replace_callback("@$patt_in@is", array(&$this, '__make_contents_callback'), $content, -1, $count);
         return $count;
     }
@@ -216,10 +214,8 @@ class ContentsPost
         if ($tag_patt) {
             $patt_in[] = '(?:<(' . $tag_patt . ')([^>]*)' . $patt_suffix . ')';
         }
-        $patt_in = implode('|', $patt_in);
-        if (count($patt_in) > 1) {
-            return __CLASS__ . ': don`t use tags and attributes selectors in the same time - use separately';
-        }
+        $patt_in = implode($patt_in);
+
         $_content = preg_replace_callback("@$patt_in@is", array(&$this, '__make_contents_callback'), $content, -1, $count);
         return $_content;
     }
